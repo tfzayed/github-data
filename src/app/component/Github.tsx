@@ -19,24 +19,20 @@ export default function Github({
     useEffect(() => {
         const getRepo = async () => {
             try {
-                const res = await fetch(
-                    `https://api.github.com/repos/${gitRepo}`,
-                    {
+                const [res, prRes] = await Promise.all([
+                    fetch(`https://api.github.com/repos/${gitRepo}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
-                    }
-                );
-                const repoInfo = await res.json();
+                    }),
+                    fetch(`https://api.github.com/repos/${gitRepo}/pulls`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }),
+                ]);
 
-                const prRes = await fetch(
-                    `https://api.github.com/repos/${gitRepo}/pulls`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
+                const repoInfo = await res.json();
                 const prData = await prRes.json();
                 const updatedRepoData = {
                     ...repoInfo,
@@ -74,24 +70,23 @@ export default function Github({
             }
         };
 
-        if (repoData.name) {
-            postRepo();
-        }
+        // if (repoData) {
+        //     postRepo();
+        // }
     }, [repoData]);
 
     return (
         <div className="col-3">
             <div className="bg-[#3e4c5e] p-6 mx-auto rounded-lg w-fit">
-                {repoData?.name && (
+                {repoData?.homepage !== null && (
                     <Image
-                        src={`/images/${repoData?.name}.jpg`}
+                        src={`https://teamosis-sg.vercel.app/api/img?url=${repoData?.homepage}&h=1000&w=1500`}
                         className="mb-2 mx-auto"
                         width={250}
                         height={188}
                         alt="repo img"
                         placeholder="blur"
                         blurDataURL="/images/placeholder.png"
-                        priority
                     />
                 )}
 

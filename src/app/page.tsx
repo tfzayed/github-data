@@ -1,22 +1,17 @@
 import Github from "./component/Github";
+import { Repositories } from "./component/Repositories";
 
 export default function Home() {
     const token = process.env.GITHUB_TOKEN;
-    const gitRepo = [
-        "themefisher/academia-hugo",
-        "themefisher/airspace-hugo",
-        "gethugothemes/andromeda-light",
-        "gethugothemes/bookworm-light-hugo",
-        "themefisher/bigspring-hugo-startup-theme",
-    ];
 
     return (
         <main className="py-24">
             <div className="mx-auto max-w-[1320px] px-4">
                 <div className="row g-5">
-                    {gitRepo.map((repo, i) => (
-                        <Github key={i} gitRepo={repo} token={token} />
+                    {Repositories.map((repo, i) => (
+                        <Github key={i} gitRepo={repo.url} token={token} />
                     ))}
+                    {/* <Github token={token} gitRepo={gitRepo} /> */}
                 </div>
             </div>
         </main>
