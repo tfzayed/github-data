@@ -4,9 +4,9 @@ const url = process.env.DATABASE_URL;
 
 let connection;
 
-const startDB = async () => {
+const connectDB = async () => {
     if (!connection) connection = await mongoose.connect(url);
     return connection;
 };
 
-export default startDB;
+export default connectDB;

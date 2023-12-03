@@ -8,10 +8,15 @@ export default function Home() {
         <main className="py-24">
             <div className="mx-auto max-w-[1320px] px-4">
                 <div className="row g-5">
-                    {Repositories.map((repo, i) => (
-                        <Github key={i} gitRepo={repo.url} token={token} />
+                    {Repositories.map((repository, i) => (
+                        <Github
+                            key={i}
+                            name={repository.name}
+                            org={repository.org}
+                            image={repository.image}
+                            token={token}
+                        />
                     ))}
-                    {/* <Github token={token} gitRepo={gitRepo} /> */}
                 </div>
             </div>
         </main>

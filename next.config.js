@@ -7,6 +7,31 @@ const nextConfig = {
                 hostname: "teamosis-sg.vercel.app",
                 port: "",
             },
+            {
+                protocol: "https",
+                hostname: "demo.themefisher.com",
+                port: "",
+            },
+            {
+                protocol: "https",
+                hostname: "demo.gethugothemes.com",
+                port: "",
+            },
+            {
+                protocol: "https",
+                hostname: "themefisher.com",
+                port: "",
+            },
+            {
+                protocol: "https",
+                hostname: "statichunt.com",
+                port: "",
+            },
+            {
+                protocol: "https",
+                hostname: "camo.githubusercontent.com",
+                port: "",
+            },
         ],
     },
 };
