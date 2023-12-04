@@ -1,6 +1,17 @@
 import connectDB from "@/lib/db";
+import RepositoryInfoModel from "@/model/RepoInfoModel";
 import RepositoryModel from "@/model/RepoModel";
 import { NextResponse } from "next/server";
+
+export const GET = async () => {
+    await connectDB();
+
+    const reposiotryInfo = await RepositoryInfoModel.find({});
+
+    return NextResponse.json({
+        reposiotryInfo,
+    });
+};
 
 export const POST = async (req: any) => {
     const body = await req.json();
@@ -9,10 +20,11 @@ export const POST = async (req: any) => {
 
     try {
         const existingRepository = await RepositoryModel.findOne({
-            name: body.name, org: body.org
+            name: body.name,
+            org: body.org,
         });
         if (existingRepository) {
-            const filter = { name: body.name};
+            const filter = { name: body.name, org: body.org };
             const update = { $set: body };
             const options = { upsert: true };
             const updatedReposiotry = await RepositoryModel.findOneAndUpdate(

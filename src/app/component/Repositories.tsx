@@ -409,8 +409,6 @@ export const Repositories = [
         org: "themefisher",
         image: "https://demo.themefisher.com/thumbnails/pinwheel.png",
     },
-
-    // gethugothemes
     {
         name: "dot-hugo",
         org: "gethugothemes",
@@ -492,7 +490,6 @@ export const Repositories = [
         image: "https://teamosis-sg.vercel.app/api/img?url=https://gethugothemes.com/hugo-modules&h=1000&w=1500",
     },
 
-    // statichunt
     {
         name: "geeky-hugo",
         org: "statichunt",
