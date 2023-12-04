@@ -60,8 +60,18 @@ export default function Github({
                 const repository = {
                     name: name,
                     org: org,
-                    forks: repositoryData.forks,
-                    stars: repositoryData.stargazers_count,
+                    forks: [
+                        {
+                            date: new Date().toLocaleString("en-BD"),
+                            forks: repositoryData.forks,
+                        },
+                    ],
+                    stars: [
+                        {
+                            date: new Date().toLocaleString("en-BD"),
+                            stars: repositoryData.stargazers_count,
+                        },
+                    ],
                     commit: new Date(
                         repositoryData?.pushed_at
                     ).toLocaleDateString(),

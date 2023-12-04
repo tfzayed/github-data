@@ -15,7 +15,6 @@ export const GET = async () => {
 
 export const POST = async (req: any) => {
     const body = await req.json();
-
     await connectDB();
 
     try {
@@ -25,7 +24,12 @@ export const POST = async (req: any) => {
         });
         if (existingRepository) {
             const filter = { name: body.name, org: body.org };
-            const update = { $set: body };
+            const update = {
+                $push: {
+                    forks: body.forks,
+                    stars: body.stars,
+                },
+            };
             const options = { upsert: true };
             const updatedReposiotry = await RepositoryModel.findOneAndUpdate(
                 filter,
@@ -57,6 +61,7 @@ export const POST = async (req: any) => {
             });
         }
     } catch (error) {
+        console.error("Error creating github info:", error);
         return NextResponse.json(
             {
                 error: "Error creating github info",
