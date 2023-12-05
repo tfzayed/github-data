@@ -1,4 +1,5 @@
-import GetRepo from "./component/GetRepo";
+import GetRepo from "@/component/GetRepo";
+
 
 export default function Home() {
     return (

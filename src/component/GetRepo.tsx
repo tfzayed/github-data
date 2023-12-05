@@ -4,7 +4,7 @@ import Skeleton from "./Skeleton";
 
 async function getRepo() {
     const res = await fetch("http://localhost:3000/api/get", {
-        next: { revalidate: 10 },
+        next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
