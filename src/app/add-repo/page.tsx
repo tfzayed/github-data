@@ -31,7 +31,7 @@ export default function AddRepo() {
     };
 
     return (
-        <div className="py-24">
+        <div className="">
             <h1 className="text-center font-bold text-5xl mb-10">
                 Add New Repository
             </h1>

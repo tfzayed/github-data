@@ -15,7 +15,7 @@ export const POST = async (req: any) => {
         if (existingRepositoryInfo) {
             return NextResponse.json({
                 reposiotry: {
-                    not_possible: "repository exist",
+                    failed: "repository already exist",
                 },
             });
         } else {

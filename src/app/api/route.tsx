@@ -3,70 +3,98 @@ import RepositoryInfoModel from "@/model/RepoInfoModel";
 import RepositoryModel from "@/model/RepoModel";
 import { NextResponse } from "next/server";
 
+const fetchRepositoryData = async (repo: any) => {
+    try {
+        const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+        const [res, prRes] = await Promise.all([
+            fetch(`https://api.github.com/repos/${repo.org}/${repo.name}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+            fetch(
+                `https://api.github.com/repos/${repo.org}/${repo.name}/pulls`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            ),
+        ]);
+
+        const getRepositoryInfo = await res.json();
+        const prData = await prRes.json();
+
+        return {
+            name: repo.name,
+            org: repo.org,
+            image: repo.image,
+            forks: [
+                {
+                    date: new Date().toLocaleString("en-BD"),
+                    forks: getRepositoryInfo.forks,
+                },
+            ],
+            stars: [
+                {
+                    date: new Date().toLocaleString("en-BD"),
+                    stars: getRepositoryInfo.stargazers_count,
+                },
+            ],
+            issues: getRepositoryInfo.open_issues_count,
+            pr: prData.length,
+            commit: getRepositoryInfo.pushed_at,
+            create: getRepositoryInfo.created_at,
+        };
+    } catch (error: any) {
+        console.error(`Error fetching data for ${repo.name}: ${error.message}`);
+        return null;
+    }
+};
+
+const updateRepositoryData = async (repositoryInfo: any) => {
+    const updatedRepositoryData = await Promise.all(
+        repositoryInfo.map(fetchRepositoryData)
+    );
+
+    const bulkOps = updatedRepositoryData.map((data: any) => ({
+        updateOne: {
+            filter: { name: data.name },
+            update: {
+                $push: {
+                    forks: data.forks,
+                    stars: data.stars,
+                },
+                $setOnInsert: {
+                    org: data.org,
+                    pr: data.pr,
+                    issues: data.issues,
+                    image: data.image,
+                    commit: data.commit,
+                    create: data.create,
+                },
+            },
+            upsert: true,
+        },
+    }));
+
+    try {
+        const result = await RepositoryModel.bulkWrite(bulkOps);
+    } catch (error: any) {
+        console.error(`Error performing bulk write: ${error.message}`);
+    }
+
+    return updatedRepositoryData;
+};
+
 export const GET = async () => {
     await connectDB();
 
-    const reposiotryInfo = await RepositoryInfoModel.find({});
+    const repositoryInfo = await RepositoryInfoModel.find({});
+
+    const updatedRepositoryData = await updateRepositoryData(repositoryInfo);
 
     return NextResponse.json({
-        reposiotryInfo,
+        repositoryInfo: updatedRepositoryData,
     });
-};
-
-export const POST = async (req: any) => {
-    const body = await req.json();
-    await connectDB();
-
-    try {
-        const existingRepository = await RepositoryModel.findOne({
-            name: body.name,
-            org: body.org,
-        });
-        if (existingRepository) {
-            const filter = { name: body.name, org: body.org };
-            const update = {
-                $push: {
-                    forks: body.forks,
-                    stars: body.stars,
-                },
-            };
-            const options = { upsert: true };
-            const updatedReposiotry = await RepositoryModel.findOneAndUpdate(
-                filter,
-                update,
-                options
-            );
-
-            return NextResponse.json({
-                reposiotry: {
-                    name: updatedReposiotry.name,
-                    org: updatedReposiotry.org,
-                    forks: updatedReposiotry.forks,
-                    stars: updatedReposiotry.stars,
-                    commit: updatedReposiotry.commit,
-                    create: updatedReposiotry.create,
-                },
-            });
-        } else {
-            const reposiotry = await RepositoryModel.create({ ...body });
-            return NextResponse.json({
-                reposiotry: {
-                    name: reposiotry.name,
-                    org: reposiotry.org,
-                    forks: reposiotry.forks,
-                    stars: reposiotry.stars,
-                    commit: reposiotry.commit,
-                    create: reposiotry.create,
-                },
-            });
-        }
-    } catch (error) {
-        console.error("Error creating github info:", error);
-        return NextResponse.json(
-            {
-                error: "Error creating github info",
-            },
-            { status: 500 }
-        );
-    }
 };
