@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const url = process.env.DATABASE_URL_LOCAL;
+const url = process.env.DATABASE_URL;
 
 let connection;
 
