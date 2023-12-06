@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function getRepo() {
-    const res = await fetch("http://localhost:3000/api/get", {
+    const res = await fetch("process.env.API/api/get", {
         next: { revalidate: 3600 },
     });
 
@@ -14,7 +14,6 @@ async function getRepo() {
 }
 
 export default async function Home() {
-    
     const data = await getRepo();
     const repositories = data.repositoryInfo;
 

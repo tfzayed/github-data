@@ -17,14 +17,13 @@ export default function AddRepo() {
 
     const postRepositoryInfo = async () => {
         try {
-            const res = await fetch("http://localhost:3000/api/add/", {
+            const res = await fetch("process.env.API/api/add/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(repositoryInfo),
             });
-
         } catch (error) {
             console.error("Error posting repositoryData to server", error);
         }
