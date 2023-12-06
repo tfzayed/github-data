@@ -17,7 +17,7 @@ export default function AddRepo() {
 
     const postRepositoryInfo = async () => {
         try {
-            const res = await fetch("process.env.API/api/add/", {
+            const res = await fetch("/api/add/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

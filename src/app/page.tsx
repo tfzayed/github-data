@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function getRepo() {
-    const res = await fetch("process.env.API/api/get", {
+    const res = await fetch("/api/get", {
         next: { revalidate: 3600 },
     });
 
