@@ -13,22 +13,28 @@ export const POST = async (req: any) => {
             org: body.org,
         });
         if (existingRepositoryInfo) {
-            return NextResponse.json({
-                reposiotry: {
-                    failed: "repository already exist",
+            return NextResponse.json(
+                {
+                    Message: {
+                        failed: "repository already exist",
+                    },
                 },
-            });
+                { status: 500 }
+            );
         } else {
             const reposiotryInfo = await RepositoryInfoModel.create({
                 ...body,
             });
-            return NextResponse.json({
-                reposiotryInfo: {
-                    name: reposiotryInfo.name,
-                    org: reposiotryInfo.org,
-                    image: reposiotryInfo.image,
+            return NextResponse.json(
+                {
+                    reposiotryInfo: {
+                        name: reposiotryInfo.name,
+                        org: reposiotryInfo.org,
+                        image: reposiotryInfo.image,
+                    },
                 },
-            });
+                { status: 200 }
+            );
         }
     } catch (error) {
         return NextResponse.json(

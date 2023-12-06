@@ -1,6 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function AddRepo() {
+    const { push } = useRouter();
     let repositoryInfo: { name: any; org: any; image: any };
 
     const onSubmit = (e: any) => {
@@ -17,13 +20,29 @@ export default function AddRepo() {
 
     const postRepositoryInfo = async () => {
         try {
-            const res = await fetch("/api/add/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(repositoryInfo),
-            });
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/add`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(repositoryInfo),
+                }
+            );
+
+            if (!res.ok) {
+                const errorResponse = await res.json();
+                const statusCode = res.status;
+                if (statusCode === 500) {
+                    alert("Repository already exists");
+                } else {
+                    alert("Failed to post repository data");
+                }
+            } else {
+                await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api`);
+                push("/");
+            }
         } catch (error) {
             console.error("Error posting repositoryData to server", error);
         }
