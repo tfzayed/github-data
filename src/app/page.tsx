@@ -1,21 +1,41 @@
+"use client";
+
+import Skeleton from "@/components/Skeleton";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-async function getRepo() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`, {
-        next: { revalidate: 43200 },
-    });
+const Home = () => {
+    const [repositories, setRepositories] = useState([]);
+    const [isLoading, setLoading] = useState(true);
 
-    if (!res.ok) {
-        throw new Error("Failed to fetch data");
-    }
+    useEffect(() => {
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`)
+            .then((res) => res.json())
+            .then((data) => {
+                setRepositories(data?.repositoryInfo);
+                setLoading(false);
+            });
+    }, []);
 
-    return res.json();
-}
+    if (isLoading)
+        return (
+            <div className="mx-auto max-w-[1320px] px-4">
+                <div className="container">
+                    <div className="row g-5">
+                        <Skeleton />
+                        <Skeleton />
+                        <Skeleton />
+                        <Skeleton />
+                        <Skeleton />
+                        <Skeleton />
+                    </div>
+                </div>
+            </div>
+        );
+    if (repositories.length === 0) return <p>No profile data</p>;
 
-export default async function Home() {
-    const data = await getRepo();
-    const repositories = data.repositoryInfo;
+    console.log("-------", repositories);
 
     return (
         <main className="pb-24">
@@ -136,4 +156,5 @@ export default async function Home() {
             </div>
         </main>
     );
-}
+};
+export default Home;

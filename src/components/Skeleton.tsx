@@ -1,4 +1,6 @@
-export default function Skeleton() {
+"use client";
+
+const Skeleton = () => {
     return (
         <div className="col-4">
             <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-w-full min-h-full animate-pulse">
@@ -40,4 +42,6 @@ export default function Skeleton() {
             </div>
         </div>
     );
-}
+};
+
+export default Skeleton;

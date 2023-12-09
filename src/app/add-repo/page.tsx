@@ -41,10 +41,11 @@ export default function AddRepo() {
                 }
             } else {
                 await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api`);
+                await alert("Added successful");
                 push("/");
             }
         } catch (error) {
-            console.error("Error posting repositoryData to server", error);
+            alert("Error posting repositoryData to server");
         }
     };
 
