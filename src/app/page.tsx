@@ -9,6 +9,8 @@ const Home = () => {
     const [repositories, setRepositories] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
+    console.log("-------", repositories);
+    
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`)
             .then((res) => res.json())
@@ -34,8 +36,6 @@ const Home = () => {
             </div>
         );
     if (repositories.length === 0) return <p>No profile data</p>;
-
-    console.log("-------", repositories);
 
     return (
         <main className="pb-24">

@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
-import RepositoryInfoModel from "@/model/RepoInfoModel";
+import RepositoryModel from "@/model/RepoModel";
+import { fetchRepositoryData } from "@/utils/fetch";
 import { NextResponse } from "next/server";
 
 export const POST = async (req: any) => {
@@ -8,40 +9,36 @@ export const POST = async (req: any) => {
     await connectDB();
 
     try {
-        const existingRepositoryInfo = await RepositoryInfoModel.findOne({
+        const existingRepositoryInfo = await RepositoryModel.findOne({
             name: body.name,
             org: body.org,
         });
-        if (existingRepositoryInfo) {
-            return NextResponse.json(
-                {
-                    Message: {
-                        failed: "repository already exist",
-                    },
+
+        if (existingRepositoryInfo && existingRepositoryInfo.name) {
+            return NextResponse.json({
+                repository: {
+                    failed: "repository already exists",
                 },
-                { status: 500 }
-            );
-        } else {
-            const reposiotryInfo = await RepositoryInfoModel.create({
-                ...body,
             });
-            return NextResponse.json(
-                {
-                    reposiotryInfo: {
-                        name: reposiotryInfo.name,
-                        org: reposiotryInfo.org,
-                        image: reposiotryInfo.image,
-                    },
+        } else {
+            const info = await fetchRepositoryData(body);
+
+            const repositoryInfo = await RepositoryModel.create({
+                ...info,
+            });
+
+            return NextResponse.json({
+                repositoryInfo: {
+                    repositoryInfo,
                 },
-                { status: 200 }
-            );
+            });
         }
     } catch (error) {
         return NextResponse.json(
             {
                 error: "Error creating github info",
             },
-            { status: 500 }
+            { status: 550 }
         );
     }
 };

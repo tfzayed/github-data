@@ -13,25 +13,25 @@ interface IRepository {
 }
 
 const repositorySchema = new Schema<IRepository>({
-    name: { type: String, required: true },
-    org: { type: String, required: true },
-    image: { type: String, required: true },
+    name: { type: String },
+    org: { type: String },
+    image: { type: String },
     forks: [
         {
-            date: { type: String, required: true },
-            forks: { type: Number, required: true },
+            date: { type: String },
+            forks: { type: Number },
         },
     ],
     stars: [
         {
-            date: { type: String, required: true },
-            stars: { type: Number, required: true },
+            date: { type: String },
+            stars: { type: Number },
         },
     ],
-    issues: { type: String, required: true },
-    pr: { type: String, required: true },
-    commit: { type: String, required: true },
-    create: { type: String, required: true },
+    issues: { type: String },
+    pr: { type: String },
+    commit: { type: String },
+    create: { type: String },
 });
 
 const RepositoryModel =
