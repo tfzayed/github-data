@@ -54,22 +54,12 @@ export default async function page() {
                                                 </span>
                                             </h2>
                                             <div className="flex">
-                                                {repository?.forks.map(
-                                                    (fork: any, i: number) => (
-                                                        <p key={i}>
-                                                            {fork?.forks}
-                                                        </p>
-                                                    )
-                                                )}
-                                            </div>
-                                            <div className="flex">
                                                 <p className="mb-2 font-bold">
                                                     Forks:{" "}
                                                     <span className="font-normal">
                                                         {
-                                                            repository?.forks.slice(
-                                                                -1
-                                                            )[0].forks
+                                                            repository?.forks.reverse()[0]
+                                                                .forks
                                                         }
                                                     </span>
                                                 </p>
@@ -78,9 +68,8 @@ export default async function page() {
                                                     Stars:{" "}
                                                     <span className="font-normal">
                                                         {
-                                                            repository?.stars.slice(
-                                                                -1
-                                                            )[0].stars
+                                                            repository?.stars.reverse()[0]
+                                                                .stars
                                                         }
                                                     </span>
                                                 </p>
