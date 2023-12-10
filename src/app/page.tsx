@@ -10,7 +10,6 @@ const Home = () => {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`)
             .then((res) => res.json())
             .then((data) => {
@@ -20,7 +19,7 @@ const Home = () => {
             .catch((error) => {
                 console.log("-------error-------", error);
             });
-    }, [repositories]);
+    }, []);
 
     if (isLoading)
         return (
