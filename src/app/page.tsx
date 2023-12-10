@@ -10,7 +10,9 @@ const Home = () => {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`)
+        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`, {
+            cache: "no-store",
+        })
             .then((res) => res.json())
             .then((data) => {
                 setRepositories(data?.repositoryInfo);
