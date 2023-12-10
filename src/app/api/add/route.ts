@@ -38,7 +38,7 @@ export async function POST(req: any) {
             return NextResponse.json(
                 {
                     success: "Repository Added",
-                    repositoryInfo: repositoryInfo,
+                    repositoryInfo: info,
                 },
                 { status: 200 }
             );
