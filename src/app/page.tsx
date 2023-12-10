@@ -1,43 +1,21 @@
-"use client";
-
-import Skeleton from "@/components/Skeleton";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-const Home = () => {
-    const [repositories, setRepositories] = useState([]);
-    const [isLoading, setLoading] = useState(true);
+async function getData() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`, {
+        cache: "no-store",
+    });
 
-    useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`, {
-            cache: "no-store",
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setRepositories(data?.repositoryInfo);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log("-------error-------", error);
-            });
-    }, []);
+    if (!res.ok) {
+        throw new Error("Failed to fetch data");
+    }
 
-    if (isLoading)
-        return (
-            <div className="mx-auto max-w-[1320px] px-4">
-                <div className="container">
-                    <div className="row g-5">
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
-                    </div>
-                </div>
-            </div>
-        );
+    return res.json();
+}
+
+export default async function page() {
+    const data = await getData();
+
 
     return (
         <main className="pb-24">
@@ -47,7 +25,7 @@ const Home = () => {
             <div className="mx-auto max-w-[1320px] px-4">
                 <div className="container">
                     <div className="row g-5">
-                        {repositories
+                        {data.repositoryInfo
                             .slice(-3)
                             .map((repository: any, i: number) => (
                                 <div key={i} className="col-4">
@@ -160,5 +138,4 @@ const Home = () => {
             </div>
         </main>
     );
-};
-export default Home;
+}

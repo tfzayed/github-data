@@ -1,9 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-export default function AddRepo() {
-    const { push } = useRouter();
+export default async function page() {
     let repositoryInfo: { name: any; org: any; image: any };
 
     const onSubmit = (e: any) => {

@@ -4,7 +4,7 @@ import { fetchRepositoryData } from "@/utils/fetch";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
-export const POST = async (req: any) => {
+export async function POST(req: any) {
     const body = await req.json();
 
     await connectDB();
@@ -20,7 +20,9 @@ export const POST = async (req: any) => {
                 {
                     error: "Repository already exists",
                 },
-                { status: 550 }
+                {
+                    status: 550,
+                }
             );
         } else {
             const info = await fetchRepositoryData(body);
@@ -28,7 +30,6 @@ export const POST = async (req: any) => {
             const repositoryInfo = await RepositoryModel.create({
                 ...info,
             });
-
             revalidatePath("/");
             return NextResponse.json(
                 {
@@ -45,4 +46,4 @@ export const POST = async (req: any) => {
             { status: 550 }
         );
     }
-};
+}

@@ -2,8 +2,9 @@ import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
 import { updateRepositoryData } from "@/utils/fetch";
 import { NextResponse } from "next/server";
+import cors from "cors"
 
-export const GET = async () => {
+export async function GET() {
     await connectDB();
 
     const repositoryInfo = await RepositoryModel.find({});
@@ -13,4 +14,4 @@ export const GET = async () => {
     return NextResponse.json({
         repositoryInfo: updatedRepositoryData,
     });
-};
+}
