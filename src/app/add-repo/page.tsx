@@ -15,19 +15,19 @@ export default function AddRepo() {
             image: e.target.img.value,
         };
 
-        if (repositoryInfo) postRepositoryInfo();
+        if (repositoryInfo) postRepositoryInfo(repositoryInfo);
     };
 
-    const postRepositoryInfo = async () => {
+    const postRepositoryInfo = async (repositoryInfo: any) => {
         try {
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/add`,
                 {
                     method: "POST",
+                    body: JSON.stringify(repositoryInfo),
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(repositoryInfo),
                 }
             );
 

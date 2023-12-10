@@ -10,13 +10,17 @@ const Home = () => {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`)
             .then((res) => res.json())
             .then((data) => {
                 setRepositories(data?.repositoryInfo);
                 setLoading(false);
+            })
+            .catch((error) => {
+                console.log("-------error-------", error);
             });
-    }, []);
+    }, [repositories]);
 
     if (isLoading)
         return (
@@ -33,7 +37,6 @@ const Home = () => {
                 </div>
             </div>
         );
-    if (repositories.length === 0) return <p>No profile data</p>;
 
     return (
         <main className="pb-24">
