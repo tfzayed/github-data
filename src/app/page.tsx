@@ -55,10 +55,14 @@ export default async function page() {
                                             </h2>
                                             <div className="flex">
                                                 {repository?.forks.map(
-                                                    (fork) => (
-                                                        <p>{fork?.forks}</p>
+                                                    (fork: any, i: number) => (
+                                                        <p key={i}>
+                                                            {fork?.forks}
+                                                        </p>
                                                     )
                                                 )}
+                                            </div>
+                                            <div className="flex">
                                                 <p className="mb-2 font-bold">
                                                     Forks:{" "}
                                                     <span className="font-normal">
