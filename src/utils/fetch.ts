@@ -20,6 +20,7 @@ export const fetchRepositoryData = async (repo: any) => {
         ]);
 
         const getRepositoryInfo = await res.json();
+
         const prData = await prRes.json();
 
         return {
@@ -38,10 +39,10 @@ export const fetchRepositoryData = async (repo: any) => {
                     stars: getRepositoryInfo.stargazers_count,
                 },
             ],
-            issues: getRepositoryInfo.open_issues_count,
-            pr: prData.length,
-            commit: getRepositoryInfo.pushed_at,
-            create: getRepositoryInfo.created_at,
+            issues: getRepositoryInfo.open_issues_count.toString(),
+            pr: prData.length.toString(),
+            commit: getRepositoryInfo.pushed_at.toString(),
+            create: getRepositoryInfo.created_at.toString(),
         };
     } catch (error: any) {
         console.error(`Error fetching data for ${repo.name}: ${error.message}`);

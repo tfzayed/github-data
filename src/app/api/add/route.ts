@@ -27,13 +27,18 @@ export async function POST(req: any) {
         } else {
             const info = await fetchRepositoryData(body);
 
-            const repositoryInfo = await RepositoryModel.create({
-                ...info,
-            });
+            const repositoryInfo = await new RepositoryModel(info);
+
+            await repositoryInfo.save();
+            // const repositoryInfo = await RepositoryModel.create({
+            //     ...info,
+            // });
+
             revalidatePath("/");
             return NextResponse.json(
                 {
                     success: "Repository Added",
+                    repositoryInfo: repositoryInfo,
                 },
                 { status: 200 }
             );

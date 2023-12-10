@@ -32,6 +32,7 @@ export default async function page() {
             const statusCode = res.status;
             if (statusCode === 200) {
                 alert(response.success);
+                console.log("-------", response.repositoryInfo);
             } else {
                 alert(response.error);
             }
