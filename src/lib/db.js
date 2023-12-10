@@ -5,10 +5,7 @@ let connection;
 
 const connectDB = async () => {
     if (!connection) {
-        connection = await mongoose.connect(url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        connection = await mongoose.connect(url);
     }
     return connection;
 };
