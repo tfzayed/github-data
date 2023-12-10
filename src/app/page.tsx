@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function getData() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`, {
+    const timestamp = Date.now();
+    const url = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get?timestamp=${timestamp}`;
+
+    const res = await fetch(url, {
         cache: "no-store",
     });
 
@@ -15,7 +18,6 @@ async function getData() {
 
 export default async function page() {
     const data = await getData();
-
 
     return (
         <main className="pb-24">

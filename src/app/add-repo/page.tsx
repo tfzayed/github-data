@@ -1,4 +1,6 @@
 "use client";
+ 
+import { redirect } from "next/navigation";
 
 export default async function page() {
     let repositoryInfo: { name: any; org: any; image: any };
@@ -32,7 +34,7 @@ export default async function page() {
             const statusCode = res.status;
             if (statusCode === 200) {
                 alert(response.success);
-                console.log("-------", response.repositoryInfo);
+                redirect("/");
             } else {
                 alert(response.error);
             }
