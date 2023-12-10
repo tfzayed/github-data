@@ -54,6 +54,11 @@ export default async function page() {
                                                 </span>
                                             </h2>
                                             <div className="flex">
+                                                {repository?.forks.map(
+                                                    (fork) => (
+                                                        <p>{fork?.forks}</p>
+                                                    )
+                                                )}
                                                 <p className="mb-2 font-bold">
                                                     Forks:{" "}
                                                     <span className="font-normal">

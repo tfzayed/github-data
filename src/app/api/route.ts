@@ -11,7 +11,11 @@ export async function GET() {
 
     const updatedRepositoryData = await updateRepositoryData(repositoryInfo);
 
-    return NextResponse.json({
+    const response = NextResponse.json({
         repositoryInfo: updatedRepositoryData,
     });
+
+    response.headers.set("Cache-Control", "no-store");
+
+    return response;
 }
