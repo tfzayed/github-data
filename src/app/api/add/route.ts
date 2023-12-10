@@ -1,6 +1,7 @@
 import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
 import { fetchRepositoryData } from "@/utils/fetch";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export const POST = async (req: any) => {
@@ -15,11 +16,12 @@ export const POST = async (req: any) => {
         });
 
         if (existingRepositoryInfo && existingRepositoryInfo.name) {
-            return NextResponse.json({
-                repository: {
-                    failed: "repository already exists",
+            return NextResponse.json(
+                {
+                    error: "Repository already exists",
                 },
-            });
+                { status: 550 }
+            );
         } else {
             const info = await fetchRepositoryData(body);
 
@@ -27,11 +29,13 @@ export const POST = async (req: any) => {
                 ...info,
             });
 
-            return NextResponse.json({
-                repositoryInfo: {
-                    repositoryInfo,
+            revalidatePath("/");
+            return NextResponse.json(
+                {
+                    success: "Repository Added",
                 },
-            });
+                { status: 200 }
+            );
         }
     } catch (error) {
         return NextResponse.json(

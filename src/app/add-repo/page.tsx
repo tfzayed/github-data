@@ -31,18 +31,12 @@ export default function AddRepo() {
                 }
             );
 
-            if (!res.ok) {
-                const errorResponse = await res.json();
-                const statusCode = res.status;
-                if (statusCode === 500) {
-                    alert("Repository already exists");
-                } else {
-                    alert("Failed to post repository data");
-                }
+            const response = await res.json();
+            const statusCode = res.status;
+            if (statusCode === 200) {
+                alert(response.success);
             } else {
-                await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api`);
-                await alert("Added successful");
-                push("/");
+                alert(response.error);
             }
         } catch (error) {
             alert("Error posting repositoryData to server");

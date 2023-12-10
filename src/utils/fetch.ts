@@ -1,3 +1,5 @@
+"use server";
+
 import RepositoryModel from "@/model/RepoModel";
 
 export const fetchRepositoryData = async (repo: any) => {
