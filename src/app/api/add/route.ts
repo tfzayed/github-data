@@ -2,7 +2,36 @@ import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
 import { fetchRepositoryData } from "@/utils/fetch";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
+const getCorsHeaders = (origin: string) => {
+    const headers = {
+        "Access-Control-Allow-Methods": `${process.env.ALLOWED_METHODS}`,
+        "Access-Control-Allow-Headers": `${process.env.ALLOWED_HEADERS}`,
+        "Access-Control-Allow-Origin": `${process.env.DOMAIN_URL}`,
+    };
+
+    if (!process.env.ALLOWED_ORIGIN || !origin) return headers;
+
+    const allowedOrigins = process.env.ALLOWED_ORIGIN.split(",");
+
+    if (allowedOrigins.includes("*")) {
+        headers["Access-Control-Allow-Origin"] = "*";
+    } else if (allowedOrigins.includes(origin)) {
+        headers["Access-Control-Allow-Origin"] = origin;
+    }
+
+    return headers;
+};
+export const OPTIONS = async (request: NextRequest) => {
+    return NextResponse.json(
+        {},
+        {
+            status: 200,
+            headers: getCorsHeaders(request.headers.get("origin") || ""),
+        }
+    );
+};
 
 export async function POST(req: any) {
     const body = await req.json();
@@ -22,6 +51,7 @@ export async function POST(req: any) {
                 },
                 {
                     status: 550,
+                    headers: getCorsHeaders(req.headers.get("origin") || ""),
                 }
             );
         } else {
@@ -30,9 +60,6 @@ export async function POST(req: any) {
             const repositoryInfo = await new RepositoryModel(info);
 
             await repositoryInfo.save();
-            // const repositoryInfo = await RepositoryModel.create({
-            //     ...info,
-            // });
 
             revalidatePath("/");
             return NextResponse.json(
@@ -40,7 +67,10 @@ export async function POST(req: any) {
                     success: "Repository Added",
                     repositoryInfo: info,
                 },
-                { status: 200 }
+                {
+                    status: 200,
+                    headers: getCorsHeaders(req.headers.get("origin") || ""),
+                }
             );
         }
     } catch (error) {
@@ -48,7 +78,10 @@ export async function POST(req: any) {
             {
                 error: "Error creating github info",
             },
-            { status: 550 }
+            {
+                status: 550,
+                headers: getCorsHeaders(req.headers.get("origin") || ""),
+            }
         );
     }
 }
