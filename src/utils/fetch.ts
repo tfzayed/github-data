@@ -41,8 +41,12 @@ export const fetchRepositoryData = async (repo: any) => {
             ],
             issues: getRepositoryInfo.open_issues_count,
             pr: prData.length,
-            commit: getRepositoryInfo.pushed_at,
-            create: getRepositoryInfo.created_at,
+            commit: new Date(getRepositoryInfo.pushed_at).toLocaleString(
+                "en-BD"
+            ),
+            create: new Date(getRepositoryInfo.created_at).toLocaleString(
+                "en-BD"
+            ),
         };
     } catch (error: any) {
         console.error(`Error fetching data for ${repo.name}: ${error.message}`);
