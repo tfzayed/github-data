@@ -1,6 +1,9 @@
 "use client";
 
-export default async function page() {
+import { useRouter } from "next/navigation";
+
+export default function Add() {
+    const { push } = useRouter();
     let repositoryInfo: { name: any; org: any; image: any };
 
     const onSubmit = (e: any) => {
@@ -32,6 +35,7 @@ export default async function page() {
             const statusCode = res.status;
             if (statusCode === 200) {
                 alert(response.success);
+                push("/");
             } else {
                 alert(response.error);
             }
