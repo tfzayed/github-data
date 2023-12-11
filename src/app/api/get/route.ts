@@ -10,3 +10,5 @@ export async function GET() {
         repositoryInfo,
     });
 }
+
+export const dynamic = "force-dynamic";

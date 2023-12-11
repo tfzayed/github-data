@@ -1,7 +1,6 @@
 import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
 import { fetchRepositoryData } from "@/utils/fetch";
-import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 const getCorsHeaders = (origin: string) => {
@@ -61,7 +60,6 @@ export async function POST(req: any) {
 
             await repositoryInfo.save();
 
-            revalidatePath("/");
             return NextResponse.json(
                 {
                     success: "Repository Added",
@@ -85,3 +83,5 @@ export async function POST(req: any) {
         );
     }
 }
+
+export const dynamic = "force-dynamic";

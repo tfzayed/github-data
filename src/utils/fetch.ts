@@ -63,7 +63,7 @@ export const updateRepositoryData = async (repositoryInfo: any) => {
                     forks: data.forks,
                     stars: data.stars,
                 },
-                $setOnInsert: {
+                $set: {
                     org: data.org,
                     pr: data.pr,
                     issues: data.issues,
