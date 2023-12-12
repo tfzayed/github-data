@@ -2,7 +2,15 @@
 
 import { Repository } from "@/types";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import {
+    CartesianGrid,
+    Line,
+    LineChart,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 
 async function getDetails(id: string) {
     try {
@@ -27,6 +35,7 @@ async function getDetails(id: string) {
 export default function Page({ params }: { params: any }) {
     const [reposiotryDetails, setReposiotryDetails] = useState<Repository>();
     const [loading, setLoading] = useState(true);
+    const chartId = useId();
 
     useEffect(() => {
         getDetails(params.id)
@@ -50,12 +59,12 @@ export default function Page({ params }: { params: any }) {
                 </div>
 
                 {reposiotryDetails?.image && (
-                    <div className="row">
+                    <div className="row justify-center">
                         <Image
-                            className="mb-10 col"
+                            className="mb-6 col-8"
                             src={reposiotryDetails?.image}
-                            width={1000}
-                            height={250}
+                            width={700}
+                            height={500}
                             alt="repo img"
                             placeholder="blur"
                             blurDataURL="/images/placeholder.png"
@@ -63,7 +72,7 @@ export default function Page({ params }: { params: any }) {
                     </div>
                 )}
 
-                <div className="bg-[#3e4c5e] rounded-lg px-5 py-3">
+                <div className="bg-[#3e4c5e] rounded-lg px-5 py-3 mb-6">
                     <div className="row">
                         <div className="col-3">
                             <div className="text-center">
@@ -92,21 +101,57 @@ export default function Page({ params }: { params: any }) {
                     </div>
                 </div>
 
-                <div>
-                    <p>
-                        {
-                            reposiotryDetails?.forks[
-                                reposiotryDetails?.forks.length - 1
-                            ].forks
-                        }
-                    </p>
-                    <p>
-                        {
-                            reposiotryDetails?.stars[
-                                reposiotryDetails?.stars.length - 1
-                            ].stars
-                        }
-                    </p>
+                <div className="row justify-center">
+                    <div className="col-10">
+                        <div className="mb-6">
+                            <h3 className="text-center text-2xl">Forks</h3>
+                            <LineChart
+                                id={chartId}
+                                width={1000}
+                                height={400}
+                                data={reposiotryDetails?.forks}
+                            >
+                                <Line
+                                    type="monotone"
+                                    dataKey="forks"
+                                    stroke="#8884d8"
+                                />
+                                <CartesianGrid stroke="#3e4c5e" />
+                                <XAxis dataKey="date" stroke="#f0f8ff" />
+                                <YAxis dataKey="forks" stroke="#f0f8ff" />
+                                <Tooltip
+                                    contentStyle={{
+                                        color: "#8884d8",
+                                    }}
+                                />
+                            </LineChart>
+                        </div>
+                    </div>
+                    <div className="col-10">
+                        <div className="mb-6">
+                            <h3 className="text-center text-2xl">Stars</h3>
+                            <LineChart
+                                id={chartId}
+                                width={1000}
+                                height={400}
+                                data={reposiotryDetails?.stars}
+                            >
+                                <Line
+                                    type="monotone"
+                                    dataKey="forks"
+                                    stroke="#8884d8"
+                                />
+                                <CartesianGrid stroke="#3e4c5e" />
+                                <XAxis dataKey="date" stroke="#f0f8ff" />
+                                <YAxis dataKey="stars" stroke="#f0f8ff" />
+                                <Tooltip
+                                    contentStyle={{
+                                        color: "#8884d8",
+                                    }}
+                                />
+                            </LineChart>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
