@@ -32,7 +32,7 @@ export default function RootLayout({
                         Add
                     </Link>
                 </div>
-                {children}
+                <main className="pb-24">{children}</main>
             </body>
         </html>
     );

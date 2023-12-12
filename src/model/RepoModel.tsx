@@ -1,18 +1,7 @@
+import { Repository } from "@/types";
 import { Schema, model, models } from "mongoose";
 
-interface IRepository {
-    name: string;
-    org: string;
-    image: string;
-    forks: { date: string; forks: number }[];
-    stars: { date: string; stars: number }[];
-    issues: string;
-    pr: string;
-    commit: string;
-    create: string;
-}
-
-const repositorySchema = new Schema<IRepository>({
+const repositorySchema = new Schema<Repository>({
     name: { type: String },
     org: { type: String },
     image: { type: String },
@@ -35,6 +24,6 @@ const repositorySchema = new Schema<IRepository>({
 });
 
 const RepositoryModel =
-    models.Repository || model<IRepository>("Repository", repositorySchema);
+    models.Repository || model<Repository>("Repository", repositorySchema);
 
 export default RepositoryModel;

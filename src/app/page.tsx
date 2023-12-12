@@ -39,13 +39,14 @@ export default function Home() {
 
     useEffect(() => {
         getData()
-            .then((res) => setReposiotryInfo(res.repositoryInfo))
+            .then((res) => {
+                setReposiotryInfo(res.repositoryInfo), setLoading(false);
+            })
             .catch((error) => console.log("error:", error));
-        setLoading(false);
     }, []);
 
     return (
-        <main className="pb-24">
+        <>
             <div className="flex justify-center items-center mb-10">
                 <h1 className="font-bold text-5xl mr-10">Repositories</h1>
                 <button
@@ -66,11 +67,11 @@ export default function Home() {
                             <Skeleton />
                             <Skeleton />
                             <Skeleton />
-                            <Skeleton />
                         </div>
                     )}
                     <div className="row g-5">
                         {reposiotryInfo
+                            .slice(-3)
                             .map((repository: any, i: number) => (
                                 <div key={i} className="col-4">
                                     <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full">
@@ -90,6 +91,7 @@ export default function Home() {
                                             <h1 className="mb-2 font-bold text-xl">
                                                 {repository.name}
                                             </h1>
+
                                             <h2 className="mb-4 font-bold text-xl">
                                                 <span className="font-normal">
                                                     Org: {repository.org}
@@ -156,30 +158,38 @@ export default function Home() {
                                             </p>
                                         </div>
 
-                                        <div className="">
-                                            <div className="row">
-                                                <div className="col">
-                                                    {repository.name && (
-                                                        <Link
-                                                            href={`https://github.com/${repository.org}/${repository.name}/blob/master/README.md`}
-                                                            target="_blank"
-                                                            className="bg-[#536271] rounded-lg text-center block py-3 "
-                                                        >
-                                                            Readme
-                                                        </Link>
-                                                    )}
-                                                </div>
-                                                <div className="col">
-                                                    {repository.name && (
-                                                        <Link
-                                                            href={`https://github.com/${repository.org}/${repository.name}`}
-                                                            target="_blank"
-                                                            className="bg-[#536271] rounded-lg text-center block py-3 "
-                                                        >
-                                                            Github
-                                                        </Link>
-                                                    )}
-                                                </div>
+                                        <div className="row">
+                                            <div className="col">
+                                                {repository.name && (
+                                                    <Link
+                                                        href={`https://github.com/${repository.org}/${repository.name}/blob/master/README.md`}
+                                                        target="_blank"
+                                                        className="bg-[#536271] rounded-lg text-center block py-3 "
+                                                    >
+                                                        Readme
+                                                    </Link>
+                                                )}
+                                            </div>
+                                            <div className="col">
+                                                {repository.name && (
+                                                    <Link
+                                                        href={`https://github.com/${repository.org}/${repository.name}`}
+                                                        target="_blank"
+                                                        className="bg-[#536271] rounded-lg text-center block py-3 "
+                                                    >
+                                                        Github
+                                                    </Link>
+                                                )}
+                                            </div>
+                                            <div className="col">
+                                                {repository._id && (
+                                                    <Link
+                                                        href={`${repository._id}`}
+                                                        className="bg-[#536271] rounded-lg text-center block py-3 "
+                                                    >
+                                                        Details
+                                                    </Link>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -188,6 +198,6 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-        </main>
+        </>
     );
 }
