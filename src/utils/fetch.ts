@@ -24,28 +24,47 @@ export const fetchRepositoryData = async (repo: any) => {
         const prData = await prRes.json();
 
         return {
+            id: repo._id,
             name: repo.name,
             org: repo.org,
             image: repo.image,
             forks: [
                 {
-                    date: new Date().toLocaleString("en-BD"),
+                    date: new Date().toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    }),
                     forks: getRepositoryInfo.forks,
                 },
             ],
             stars: [
                 {
-                    date: new Date().toLocaleString("en-BD"),
+                    date: new Date().toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                    }),
                     stars: getRepositoryInfo.stargazers_count,
                 },
             ],
             issues: getRepositoryInfo.open_issues_count,
             pr: prData.length,
-            commit: new Date(getRepositoryInfo.pushed_at).toLocaleString(
-                "en-BD"
+            commit: new Date(getRepositoryInfo.pushed_at).toLocaleDateString(
+                "en-GB",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                }
             ),
-            create: new Date(getRepositoryInfo.created_at).toLocaleString(
-                "en-BD"
+            create: new Date(getRepositoryInfo.created_at).toLocaleDateString(
+                "en-GB",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                }
             ),
         };
     } catch (error: any) {
@@ -59,26 +78,58 @@ export const updateRepositoryData = async (repositoryInfo: any) => {
         repositoryInfo.map(fetchRepositoryData)
     );
 
-    const bulkOps = updatedRepositoryData.map((data: any) => ({
-        updateOne: {
-            filter: { name: data.name },
-            update: {
-                $push: {
-                    forks: data.forks,
-                    stars: data.stars,
+    const bulkOps = updatedRepositoryData.map((data: any) => {
+        const repository = repositoryInfo.find(
+            (repo: any) => repo._id === data.id
+        );
+
+        const $push: Record<string, any> = {};
+        const $set: Record<string, any> = {
+            org: data.org,
+            pr: data.pr,
+            issues: data.issues,
+            image: data.image,
+            commit: data.commit,
+            create: data.create,
+        };
+
+        // checking forks
+        const forksMatch =
+            repository?.forks &&
+            data?.forks &&
+            repository.forks[repository.forks.length - 1]?.date ===
+                data.forks[0]?.date;
+        if (forksMatch) {
+            $set[`forks.${repository?.forks.length - 1}.forks`] =
+                data.forks[0].forks;
+        } else {
+            $push.forks = data.forks;
+        }
+
+        // checking stars
+        const starsMatch =
+            repository?.stars &&
+            data?.stars &&
+            repository.stars[repository.stars.length - 1]?.date ===
+                data.stars[0]?.date;
+        if (starsMatch) {
+            $set[`stars.${repository?.stars.length - 1}.stars`] =
+                data.stars[0].stars;
+        } else {
+            $push.stars = data.stars;
+        }
+
+        return {
+            updateOne: {
+                filter: { name: data.name },
+                update: {
+                    $push,
+                    $set,
                 },
-                $set: {
-                    org: data.org,
-                    pr: data.pr,
-                    issues: data.issues,
-                    image: data.image,
-                    commit: data.commit,
-                    create: data.create,
-                },
+                upsert: true,
             },
-            upsert: true,
-        },
-    }));
+        };
+    });
 
     try {
         const result = await RepositoryModel.bulkWrite(bulkOps);

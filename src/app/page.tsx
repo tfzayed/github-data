@@ -76,7 +76,8 @@ export default function Home() {
                                 <div key={i} className="col-4">
                                     <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full">
                                         {repository.image !== null && (
-                                            <Image
+                                            <div className="h-fit">
+                                               <Image
                                                 src={repository.image}
                                                 className="mb-2 mx-auto"
                                                 width={300}
@@ -84,7 +85,9 @@ export default function Home() {
                                                 alt="repo img"
                                                 placeholder="blur"
                                                 blurDataURL="/images/placeholder.png"
-                                            />
+                                            /> 
+                                            </div>
+                                            
                                         )}
 
                                         <div className="my-6">

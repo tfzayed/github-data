@@ -31,6 +31,12 @@ export default function RootLayout({
                     >
                         Add
                     </Link>
+                    <Link
+                        href={"/dashboard"}
+                        className="bg-[#536271] rounded-lg text-center px-10 py-3 mx-5 my-10"
+                    >
+                        Dashboard
+                    </Link>
                 </div>
                 <main className="pb-24">{children}</main>
             </body>
