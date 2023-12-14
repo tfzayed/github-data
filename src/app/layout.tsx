@@ -18,7 +18,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <div className="flex justify-end sticky top-0">
+                <div className="flex justify-end">
                     <Link
                         href={"/"}
                         className="bg-[#536271] rounded-lg text-center px-10 py-3 mx-5 my-10"

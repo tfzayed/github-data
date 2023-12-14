@@ -9,7 +9,7 @@ export async function GET() {
     const repositoryInfo = await RepositoryModel.find({});
 
     const updatedRepositoryData = await updateRepositoryData(
-        repositoryInfo.slice(-3)
+        repositoryInfo
     );
 
     return NextResponse.json({

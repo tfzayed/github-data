@@ -1,9 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import ReactSelect from "react-select";
-import reactSelectAnimated from "react-select/animated";
-("react-select/animated");
+import { Repository } from "@/types";
+import { useState } from "react";
+import AsyncSelect from "react-select/async";
+import {
+    CartesianGrid,
+    Legend,
+    Line,
+    LineChart,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 
 async function getData() {
     try {
@@ -22,43 +30,128 @@ async function getData() {
         return res.json();
     } catch (error) {
         console.error("Initail Data fetching error:", error);
+        return [];
     }
 }
 
 export default function Page() {
-    const [reposiotryInfo, setReposiotryInfo] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const animatedComponents = reactSelectAnimated();
+    const [inputValue, setValue] = useState();
+    const [selectedValue, setSelectedValue] = useState<Repository[]>([]);
 
-    useEffect(() => {
-        getData()
-            .then((res) => {
-                setReposiotryInfo(res.repositoryInfo), setLoading(false);
-            })
-            .catch((error) => console.log("error:", error));
-    }, []);
+    const fetchData = async (inputValue: string) => {
+        const res = await getData();
+        if (res && res.repositoryInfo) {
+            const datas = res.repositoryInfo;
+            const filteredValues = datas.filter((data: any) =>
+                data.name.includes(inputValue)
+            );
+            return filteredValues;
+        }
+        return [];
+    };
 
-    const data = [
-        { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
-        { value: "blue", label: "Blue", color: "#0052CC", isDisabled: true },
-        { value: "purple", label: "Purple", color: "#5243AA" },
-        { value: "red", label: "Red", color: "#FF5630", isFixed: true },
-        { value: "orange", label: "Orange", color: "#FF8B00" },
-        { value: "yellow", label: "Yellow", color: "#FFC400" },
-        { value: "green", label: "Green", color: "#36B37E" },
-        { value: "forest", label: "Forest", color: "#00875A" },
-        { value: "slate", label: "Slate", color: "#253858" },
-        { value: "silver", label: "Silver", color: "#666666" },
-    ];
+    const formattedData = selectedValue.map((dataSet, index) => ({
+        id: index,
+        name: dataSet.name,
+        forks: dataSet.forks.map((entry) => ({
+            date: entry.date,
+            forks: entry.forks,
+        })),
+        stars: dataSet.stars.map((entry) => ({
+            date: entry.date,
+            stars: entry.stars,
+        })),
+    }));
 
     return (
-        <div>
-            <ReactSelect
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                options={data}
-            />
+        <div className="mx-auto max-w-[1320px] px-4">
+            <div className="row justify-center">
+                <div className="col-10 mb-16">
+                    <AsyncSelect
+                        cacheOptions
+                        defaultOptions
+                        isMulti
+                        loadOptions={fetchData}
+                        getOptionLabel={(e: any) => e.name}
+                        getOptionValue={(e: any) => e.name}
+                        value={selectedValue}
+                        instanceId="select-box"
+                        onInputChange={(value: any) => {
+                            setValue(value);
+                        }}
+                        onChange={(value: any) => {
+                            setSelectedValue(value);
+                        }}
+                        theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 0,
+                            colors: {
+                                ...theme.colors,
+                                primary25: "#536271",
+                                primary: "black",
+                                neutral0: "#3e4c5e",
+                                primary75: "red",
+                            },
+                        })}
+                    />
+                </div>
+
+                <div className="col-10">
+                    <div className="mb-8">
+                        <h3 className="text-center text-2xl">Forks</h3>
+                        <LineChart width={1000} height={400} id="linechart">
+                            <XAxis
+                                dataKey="date"
+                                stroke="#f0f8ff"
+                                allowDuplicatedCategory={false}
+                            />
+                            <YAxis dataKey="forks" stroke="#f0f8ff" />
+                            <CartesianGrid stroke="#3e4c5e" />
+                            <Tooltip contentStyle={{ color: "#8884d8" }} />
+                            <Legend />
+                            {formattedData.map((dataSet) => (
+                                <Line
+                                    key={dataSet.id}
+                                    type="monotone"
+                                    dataKey="forks"
+                                    data={dataSet.forks}
+                                    name={dataSet.name}
+                                    stroke={`#${Math.floor(
+                                        Math.random() * 16777215
+                                    ).toString(16)}`}
+                                />
+                            ))}
+                        </LineChart>
+                    </div>
+
+                    <div>
+                        <h3 className="text-center text-2xl">Stars</h3>
+                        <LineChart width={1000} height={400} id="linechart">
+                            <XAxis
+                                dataKey="date"
+                                stroke="#f0f8ff"
+                                allowDuplicatedCategory={false}
+                            />
+                            <YAxis dataKey="stars" stroke="#f0f8ff" />
+                            <CartesianGrid stroke="#3e4c5e" />
+                            <Tooltip contentStyle={{ color: "#8884d8" }} />
+                            <Legend />
+                            {formattedData.map((dataSet) => (
+                                <Line
+                                    key={dataSet.id}
+                                    type="monotone"
+                                    dataKey="stars"
+                                    data={dataSet.stars}
+                                    name={dataSet.name}
+                                    stroke={`#${Math.floor(
+                                        Math.random() * 16777215
+                                    ).toString(16)}`}
+                                />
+                            ))}
+                        </LineChart>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
