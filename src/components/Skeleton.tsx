@@ -2,7 +2,7 @@ const Skeleton = () => {
     return (
         <div className="col-4">
             <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full animate-pulse">
-                <div className="mb-2 mx-auto h-64 w-72 bg-gray-400 rounded"></div>
+                <div className="mb-2 mx-auto h-[225px] w-[300px] bg-gray-400 rounded"></div>
                 <div className="my-6">
                     <div className="mb-2 h-6 bg-gray-400 w-1/2 rounded"></div>
                     <div className="mb-4 h-6 bg-gray-400 w-2/3 rounded"></div>
@@ -21,6 +21,9 @@ const Skeleton = () => {
                 </div>
                 <div className="">
                     <div className="row">
+                        <div className="col">
+                            <div className="bg-[#536271] rounded-lg text-center block py-3 h-12"></div>
+                        </div>
                         <div className="col">
                             <div className="bg-[#536271] rounded-lg text-center block py-3 h-12"></div>
                         </div>

@@ -42,9 +42,15 @@ export default function Page() {
         const res = await getData();
         if (res && res.repositoryInfo) {
             const datas = res.repositoryInfo;
-            const filteredValues = datas.filter((data: any) =>
-                data.name.includes(inputValue)
-            );
+            const filteredValues = datas
+                .sort(
+                    (a: any, b: any) =>
+                        b.forks[b.forks.length - 1].forks -
+                        a.forks[a.forks.length - 1].forks
+                )
+                .filter((data: any) => data.name.includes(inputValue));
+
+            setSelectedValue(filteredValues.slice(0, 5));
             return filteredValues;
         }
         return [];
@@ -71,6 +77,7 @@ export default function Page() {
                         cacheOptions
                         defaultOptions
                         isMulti
+                        closeMenuOnSelect={false}
                         loadOptions={fetchData}
                         getOptionLabel={(e: any) => e.name}
                         getOptionValue={(e: any) => e.name}
@@ -114,7 +121,7 @@ export default function Page() {
                                     key={dataSet.id}
                                     type="monotone"
                                     dataKey="forks"
-                                    data={dataSet.forks}
+                                    data={dataSet.forks.slice(0, 30)}
                                     name={dataSet.name}
                                     stroke={`#${Math.floor(
                                         Math.random() * 16777215
