@@ -61,7 +61,7 @@ export default function Add() {
                                     id="name"
                                     name="name"
                                     className="h-14 my-2 p-2 bg-[#2f3a47] focus:outline-none focus:bg-[#3e4c5e] w-full rounded "
-                                    placeholder="name...."
+                                    placeholder="statichunt"
                                     type="text"
                                     required
                                 />
@@ -74,7 +74,7 @@ export default function Add() {
                                     id="org"
                                     name="org"
                                     className="h-14 my-2 p-2 bg-[#2f3a47] focus:outline-none focus:bg-[#3e4c5e] w-full rounded "
-                                    placeholder="themefisher...."
+                                    placeholder="statichunt"
                                     type="text"
                                     required
                                 />
@@ -88,16 +88,16 @@ export default function Add() {
                                     id="img"
                                     name="img"
                                     className="h-14 my-2 p-2 bg-[#2f3a47] focus:outline-none focus:bg-[#3e4c5e] w-full rounded "
-                                    placeholder="https://placehold.co/........."
+                                    placeholder="https://placehold.co/1500x1000/png?text=Statichunt"
                                     type="text"
                                     required
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="bg-[#536271] rounded-lg text-center px-5 py-3"
+                                className="bg-[#536271] rounded-lg text-center px-10 py-3"
                             >
-                                Send message
+                                Add
                             </button>
                         </form>
                     </div>

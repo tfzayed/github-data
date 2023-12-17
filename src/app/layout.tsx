@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,26 +19,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <div className="flex justify-end">
-                    <Link
-                        href={"/"}
-                        className="bg-[#536271] rounded-lg text-center px-10 py-3 mx-5 my-10"
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        href={"/add-repo"}
-                        className="bg-[#536271] rounded-lg text-center px-10 py-3 mx-5 my-10"
-                    >
-                        Add
-                    </Link>
-                    <Link
-                        href={"/dashboard"}
-                        className="bg-[#536271] rounded-lg text-center px-10 py-3 mx-5 my-10"
-                    >
-                        Dashboard
-                    </Link>
-                </div>
+                <Navbar/>
                 <main className="pb-24">{children}</main>
             </body>
         </html>

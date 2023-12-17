@@ -8,6 +8,7 @@ import {
     Legend,
     Line,
     LineChart,
+    ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis,
@@ -71,93 +72,122 @@ export default function Page() {
 
     return (
         <div className="mx-auto max-w-[1320px] px-4">
-            <div className="row justify-center">
-                <div className="col-10 mb-16">
-                    <AsyncSelect
-                        cacheOptions
-                        defaultOptions
-                        isMulti
-                        closeMenuOnSelect={false}
-                        loadOptions={fetchData}
-                        getOptionLabel={(e: any) => e.name}
-                        getOptionValue={(e: any) => e.name}
-                        value={selectedValue}
-                        instanceId="select-box"
-                        onInputChange={(value: any) => {
-                            setValue(value);
-                        }}
-                        onChange={(value: any) => {
-                            setSelectedValue(value);
-                        }}
-                        theme={(theme) => ({
-                            ...theme,
-                            borderRadius: 0,
-                            colors: {
-                                ...theme.colors,
-                                primary25: "#536271",
-                                primary: "black",
-                                neutral0: "#3e4c5e",
-                                primary75: "red",
+            <AsyncSelect
+                cacheOptions
+                defaultOptions
+                isMulti
+                closeMenuOnSelect={false}
+                loadOptions={fetchData}
+                getOptionLabel={(e: any) => e.name}
+                getOptionValue={(e: any) => e.name}
+                value={selectedValue}
+                instanceId="select-box"
+                onInputChange={(value: any) => {
+                    setValue(value);
+                }}
+                onChange={(value: any) => {
+                    setSelectedValue(value);
+                }}
+                theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                        ...theme.colors,
+                        primary25: "#3e4c5e",
+                        primary: "#3e4c5e",
+                        neutral0: "#3e4c5e",
+
+                    },
+                })}
+                styles={{
+                    control: (styles: any, state) => ({
+                        ...styles,
+                        backgroundColor: "#2f3a47",
+                        borderColor: state.isFocused ? "grey" : "#3e4c5e",
+                    }),
+                    multiValue: (styles) => {
+                        return {
+                            ...styles,
+                            fontSize: "1.3rem",
+                            alignItems: "center",
+                            height: "30px",
+                            backgroundColor: "#4d5f75",
+                        };
+                    },
+                    multiValueLabel: (styles, { data }) => {
+                        return {
+                          ...styles,
+                          color: "#fff",
+                        };
+                      },
+                    multiValueRemove: (styles) => {
+                        return {
+                            ...styles,
+                            color: "#2f3a47",
+                            cursor: "pointer",
+                            ":hover": {
+                                color: "red",
                             },
-                        })}
-                    />
-                </div>
+                        };
+                    },
+                }}
+            />
 
-                <div className="col-10">
-                    <div className="mb-8">
-                        <h3 className="text-center text-2xl">Forks</h3>
-                        <LineChart width={1000} height={400} id="linechart">
-                            <XAxis
-                                dataKey="date"
-                                stroke="#f0f8ff"
-                                allowDuplicatedCategory={false}
+            <h3 className="text-center text-2xl mt-10">Forks</h3>
+            <div className="responsiveChart-lg">
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart width={1000} height={400} id="linechart">
+                        <XAxis
+                            dataKey="date"
+                            stroke="#f0f8ff"
+                            allowDuplicatedCategory={false}
+                        />
+                        <YAxis dataKey="forks" stroke="#f0f8ff" />
+                        <CartesianGrid stroke="#3e4c5e" />
+                        <Tooltip contentStyle={{ color: "#8884d8" }} />
+                        <Legend />
+                        {formattedData.map((dataSet) => (
+                            <Line
+                                key={dataSet.id}
+                                type="monotone"
+                                dataKey="forks"
+                                data={dataSet.forks.slice(0, 30)}
+                                name={dataSet.name}
+                                stroke={`#${Math.floor(
+                                    Math.random() * 16777215
+                                ).toString(16)}`}
                             />
-                            <YAxis dataKey="forks" stroke="#f0f8ff" />
-                            <CartesianGrid stroke="#3e4c5e" />
-                            <Tooltip contentStyle={{ color: "#8884d8" }} />
-                            <Legend />
-                            {formattedData.map((dataSet) => (
-                                <Line
-                                    key={dataSet.id}
-                                    type="monotone"
-                                    dataKey="forks"
-                                    data={dataSet.forks.slice(0, 30)}
-                                    name={dataSet.name}
-                                    stroke={`#${Math.floor(
-                                        Math.random() * 16777215
-                                    ).toString(16)}`}
-                                />
-                            ))}
-                        </LineChart>
-                    </div>
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
 
-                    <div>
-                        <h3 className="text-center text-2xl">Stars</h3>
-                        <LineChart width={1000} height={400} id="linechart">
-                            <XAxis
-                                dataKey="date"
-                                stroke="#f0f8ff"
-                                allowDuplicatedCategory={false}
+            <h3 className="text-center text-2xl mt-10">Stars</h3>
+            <div className="responsiveChart-lg">
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart width={1000} height={400} id="linechart">
+                        <XAxis
+                            dataKey="date"
+                            stroke="#f0f8ff"
+                            allowDuplicatedCategory={false}
+                        />
+                        <YAxis dataKey="stars" stroke="#f0f8ff" />
+                        <CartesianGrid stroke="#3e4c5e" />
+                        <Tooltip contentStyle={{ color: "#8884d8" }} />
+                        <Legend />
+                        {formattedData.map((dataSet) => (
+                            <Line
+                                key={dataSet.id}
+                                type="monotone"
+                                dataKey="stars"
+                                data={dataSet.stars.slice(0, 30)}
+                                name={dataSet.name}
+                                stroke={`#${Math.floor(
+                                    Math.random() * 16777215
+                                ).toString(16)}`}
                             />
-                            <YAxis dataKey="stars" stroke="#f0f8ff" />
-                            <CartesianGrid stroke="#3e4c5e" />
-                            <Tooltip contentStyle={{ color: "#8884d8" }} />
-                            <Legend />
-                            {formattedData.map((dataSet) => (
-                                <Line
-                                    key={dataSet.id}
-                                    type="monotone"
-                                    dataKey="stars"
-                                    data={dataSet.stars}
-                                    name={dataSet.name}
-                                    stroke={`#${Math.floor(
-                                        Math.random() * 16777215
-                                    ).toString(16)}`}
-                                />
-                            ))}
-                        </LineChart>
-                    </div>
-                </div>
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
             </div>
         </div>
     );

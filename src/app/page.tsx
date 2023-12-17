@@ -1,6 +1,6 @@
 "use client";
 
-import Skeleton from "@/components/Skeleton";
+import CardSkeleton from "@/components/CardSkeleton";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -60,17 +60,17 @@ export default function Home() {
             <div className="mx-auto max-w-[1320px] px-4">
                 {loading && (
                     <div className="row g-5">
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
-                        <Skeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
+                        <CardSkeleton />
                     </div>
                 )}
-                <div className="row g-5">
+                <div className="row justify-center g-5">
                     {reposiotryInfo.map((repository: any, i: number) => (
-                        <div key={i} className="col-4">
+                        <div key={i} className="col-10 md:col-6 lg:col-4">
                             <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full">
                                 {repository.image !== null && (
                                     <div className="h-fit">
@@ -154,33 +154,33 @@ export default function Home() {
                                 </div>
 
                                 <div className="row">
-                                    <div className="col">
+                                    <div className="col-4">
                                         {repository.name && (
                                             <Link
                                                 href={`https://github.com/${repository.org}/${repository.name}/blob/master/README.md`}
                                                 target="_blank"
-                                                className="bg-[#536271] rounded-lg text-center block py-3 "
+                                                className="bg-[#536271] rounded-lg text-center block py-3"
                                             >
                                                 Readme
                                             </Link>
                                         )}
                                     </div>
-                                    <div className="col">
+                                    <div className="col-4">
                                         {repository.name && (
                                             <Link
                                                 href={`https://github.com/${repository.org}/${repository.name}`}
                                                 target="_blank"
-                                                className="bg-[#536271] rounded-lg text-center block py-3 "
+                                                className="bg-[#536271] rounded-lg text-center block py-3"
                                             >
                                                 Github
                                             </Link>
                                         )}
                                     </div>
-                                    <div className="col">
+                                    <div className="col-4">
                                         {repository._id && (
                                             <Link
                                                 href={`${repository._id}`}
-                                                className="bg-[#536271] rounded-lg text-center block py-3 "
+                                                className="bg-[#536271] rounded-lg text-center block py-3"
                                             >
                                                 Details
                                             </Link>

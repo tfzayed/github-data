@@ -1,4 +1,4 @@
-const Skeleton = () => {
+const CardSkeleton = () => {
     return (
         <div className="col-4">
             <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full animate-pulse">
@@ -37,4 +37,4 @@ const Skeleton = () => {
     );
 };
 
-export default Skeleton;
+export default CardSkeleton;
