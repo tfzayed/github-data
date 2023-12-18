@@ -1,6 +1,7 @@
 "use client";
 
 import CardSkeleton from "@/components/CardSkeleton";
+import { Repository } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -69,7 +70,7 @@ export default function Home() {
                     </div>
                 )}
                 <div className="row justify-center g-5">
-                    {reposiotryInfo.map((repository: any, i: number) => (
+                    {reposiotryInfo.map((repository: Repository, i: number) => (
                         <div key={i} className="col-10 md:col-6 lg:col-4">
                             <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full">
                                 {repository.image !== null && (
@@ -157,7 +158,7 @@ export default function Home() {
                                     <div className="col-4">
                                         {repository.name && (
                                             <Link
-                                                href={`https://github.com/${repository.org}/${repository.name}/blob/master/README.md`}
+                                                href={`https://github.com/${repository.org}/${repository.name}#readme`}
                                                 target="_blank"
                                                 className="bg-[#536271] rounded-lg text-center block py-3"
                                             >

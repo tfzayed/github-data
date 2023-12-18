@@ -1,4 +1,6 @@
 export type Repository = {
+    _id: string;
+    id: string;
     name: string;
     org: string;
     image: string;

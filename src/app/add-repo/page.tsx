@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+type RepositoryInfo = { name: string; org: string; image: string };
 
 export default function Add() {
     const { push } = useRouter();
-    let repositoryInfo: { name: any; org: any; image: any };
+    let repositoryInfo: RepositoryInfo;
 
     const onSubmit = (e: any) => {
         e.preventDefault();
@@ -18,7 +19,7 @@ export default function Add() {
         if (repositoryInfo) postRepositoryInfo(repositoryInfo);
     };
 
-    const postRepositoryInfo = async (repositoryInfo: any) => {
+    const postRepositoryInfo = async (repositoryInfo: RepositoryInfo) => {
         try {
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/add`,

@@ -34,11 +34,10 @@ async function getDetails(id: string) {
     }
 }
 
-export default function Page({ params }: { params: any }) {
+export default function Page({ params }: { params: { id: string } }) {
     const [reposiotryDetails, setReposiotryDetails] = useState<Repository>();
     const [loading, setLoading] = useState(true);
 
-    console.log("-------", loading);
     const chartId = useId();
 
     useEffect(() => {

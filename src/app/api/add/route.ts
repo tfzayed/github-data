@@ -32,7 +32,7 @@ export const OPTIONS = async (request: NextRequest) => {
     );
 };
 
-export async function POST(req: any) {
+export async function POST(req: Request) {
     const body = await req.json();
 
     await connectDB();

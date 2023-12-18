@@ -2,6 +2,7 @@
 
 import { Repository } from "@/types";
 import { useState } from "react";
+import { MultiValue } from "react-select";
 import AsyncSelect from "react-select/async";
 import {
     CartesianGrid,
@@ -36,8 +37,10 @@ async function getData() {
 }
 
 export default function Page() {
-    const [inputValue, setValue] = useState();
-    const [selectedValue, setSelectedValue] = useState<Repository[]>([]);
+    const [inputValue, setValue] = useState<string>();
+    const [selectedValue, setSelectedValue] = useState<MultiValue<Repository>>(
+        []
+    );
 
     const fetchData = async (inputValue: string) => {
         const res = await getData();
@@ -45,11 +48,11 @@ export default function Page() {
             const datas = res.repositoryInfo;
             const filteredValues = datas
                 .sort(
-                    (a: any, b: any) =>
+                    (a: Repository, b: Repository) =>
                         b.forks[b.forks.length - 1].forks -
                         a.forks[a.forks.length - 1].forks
                 )
-                .filter((data: any) => data.name.includes(inputValue));
+                .filter((data: Repository) => data.name.includes(inputValue));
 
             setSelectedValue(filteredValues.slice(0, 5));
             return filteredValues;
@@ -78,14 +81,14 @@ export default function Page() {
                 isMulti
                 closeMenuOnSelect={false}
                 loadOptions={fetchData}
-                getOptionLabel={(e: any) => e.name}
-                getOptionValue={(e: any) => e.name}
+                getOptionLabel={(event: Repository) => event.name}
+                getOptionValue={(event: Repository) => event.name}
                 value={selectedValue}
                 instanceId="select-box"
-                onInputChange={(value: any) => {
+                onInputChange={(value) => {
                     setValue(value);
                 }}
-                onChange={(value: any) => {
+                onChange={(value) => {
                     setSelectedValue(value);
                 }}
                 theme={(theme) => ({
@@ -95,11 +98,10 @@ export default function Page() {
                         primary25: "#3e4c5e",
                         primary: "#3e4c5e",
                         neutral0: "#3e4c5e",
-
                     },
                 })}
                 styles={{
-                    control: (styles: any, state) => ({
+                    control: (styles, state) => ({
                         ...styles,
                         backgroundColor: "#2f3a47",
                         borderColor: state.isFocused ? "grey" : "#3e4c5e",
@@ -113,12 +115,12 @@ export default function Page() {
                             backgroundColor: "#4d5f75",
                         };
                     },
-                    multiValueLabel: (styles, { data }) => {
+                    multiValueLabel: (styles) => {
                         return {
-                          ...styles,
-                          color: "#fff",
+                            ...styles,
+                            color: "#fff",
                         };
-                      },
+                    },
                     multiValueRemove: (styles) => {
                         return {
                             ...styles,
@@ -155,6 +157,7 @@ export default function Page() {
                                 stroke={`#${Math.floor(
                                     Math.random() * 16777215
                                 ).toString(16)}`}
+                                strokeWidth={3}
                             />
                         ))}
                     </LineChart>
@@ -184,6 +187,7 @@ export default function Page() {
                                 stroke={`#${Math.floor(
                                     Math.random() * 16777215
                                 ).toString(16)}`}
+                                strokeWidth={3}
                             />
                         ))}
                     </LineChart>

@@ -1,6 +1,7 @@
 import RepositoryModel from "@/model/RepoModel";
+import { Repository } from "@/types";
 
-export const fetchRepositoryData = async (repo: any) => {
+export const fetchRepositoryData = async (repo: Repository) => {
     try {
         const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
         const [res, prRes] = await Promise.all([
@@ -67,20 +68,22 @@ export const fetchRepositoryData = async (repo: any) => {
                 }
             ),
         };
-    } catch (error: any) {
-        console.error(`Error fetching data for ${repo.name}: ${error.message}`);
+    } catch (error) {
+        console.error(
+            `Error fetching data for ${repo.name}: ${(error as Error).message}`
+        );
         return null;
     }
 };
 
-export const updateRepositoryData = async (repositoryInfo: any) => {
+export const updateRepositoryData = async (repositoryInfo: Repository[]) => {
     const updatedRepositoryData = await Promise.all(
         repositoryInfo.map(fetchRepositoryData)
     );
 
     const bulkOps = updatedRepositoryData.map((data: any) => {
         const repository = repositoryInfo.find(
-            (repo: any) => repo._id === data.id
+            (repo: Repository) => repo._id === data.id
         );
 
         const $push: Record<string, any> = {};
@@ -133,8 +136,10 @@ export const updateRepositoryData = async (repositoryInfo: any) => {
 
     try {
         const result = await RepositoryModel.bulkWrite(bulkOps);
-    } catch (error: any) {
-        console.error(`Error performing bulk write: ${error.message}`);
+    } catch (error) {
+        console.error(
+            `Error performing bulk write: ${(error as Error).message}`
+        );
     }
 
     return updatedRepositoryData;
