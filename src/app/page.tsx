@@ -1,11 +1,10 @@
 "use client";
 
-import CardSkeleton from "@/components/CardSkeleton";
+import RepoCard from "@/components/home/RepoCard";
+import CardSkeleton from "@/components/skeleton/CardSkeleton";
 import { Repository } from "@/types";
-import { format, formatDistance } from "date-fns";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import ReactSelect, { MultiValue } from "react-select";
 
 async function getData() {
     try {
@@ -24,10 +23,12 @@ async function getData() {
 }
 
 export default function Home() {
-    const [reposiotryInfo, setReposiotryInfo] = useState([]);
+    const uid = useId();
+    const [reposiotryInfo, setReposiotryInfo] = useState<Repository[]>([]);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
 
+    // update repository info from github api
     const updateInfo = async () => {
         setUpdating(true),
             await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api`),
@@ -35,10 +36,68 @@ export default function Home() {
             window.location.reload();
     };
 
+    // filter repository
+    const [filterValue, setFilterValue] = useState<
+        MultiValue<
+            | {
+                  value: string;
+                  label: string;
+              }
+            | undefined
+        >
+    >();
+    const filterOptions = [
+        { value: "themefisher", label: "Themefisher" },
+        { value: "statichunt", label: "Statichunt" },
+        { value: "gethugothemes", label: "Gethugothemes" },
+    ];
+
+    // sorting reposiotry
+    const [selectedValue, setSelectedValue] = useState<{
+        value: string;
+        label: string;
+    }>({ value: "stars", label: "Stars" });
+    const sortOptions = [
+        { value: "all", label: "A-Z" },
+        { value: "stars", label: "Stars" },
+        { value: "forks", label: "Forks" },
+        { value: "commit", label: "Update" },
+    ];
+    switch (selectedValue.value) {
+        case "all":
+            reposiotryInfo.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+
+        case "commit":
+            reposiotryInfo.sort(
+                (a, b) =>
+                    (new Date(b.commit) as any) - (new Date(a.commit) as any)
+            );
+            break;
+
+        case "forks":
+            reposiotryInfo.sort(
+                (a: Repository, b: Repository) =>
+                    b.forks[b.forks.length - 1].forks -
+                    a.forks[a.forks.length - 1].forks
+            );
+            break;
+
+        case "stars":
+            reposiotryInfo.sort(
+                (a: Repository, b: Repository) =>
+                    b.stars[b.stars.length - 1].stars -
+                    a.stars[a.stars.length - 1].stars
+            );
+            break;
+    }
+
+    // get repository info from mongodb
     useEffect(() => {
         getData()
-            .then((res) => {
-                setReposiotryInfo(res.repositoryInfo), setLoading(false);
+            .then((res: { repositoryInfo: Repository[] }) => {
+                setReposiotryInfo(res.repositoryInfo);
+                setLoading(false);
             })
             .catch((error) => console.log("error:", error));
     }, []);
@@ -58,6 +117,86 @@ export default function Home() {
                 </button>
             </div>
             <div className="mx-auto max-w-[1320px] px-2 md:px-4">
+                <div className="flex justify-end items-center mb-2">
+                    <ReactSelect
+                        className="mr-2"
+                        isMulti
+                        instanceId={uid}
+                        closeMenuOnSelect={false}
+                        options={filterOptions}
+                        value={filterValue}
+                        onChange={(value) => {
+                            setFilterValue(value);
+                        }}
+                        theme={(theme) => ({
+                            ...theme,
+                            colors: {
+                                ...theme.colors,
+                                primary25: "white",
+                                primary: "#3e4c5e",
+                                neutral0: "white",
+                            },
+                        })}
+                        styles={{
+                            control: (styles) => ({
+                                ...styles,
+                                backgroundColor: "white",
+                            }),
+                            multiValue: (styles) => {
+                                return {
+                                    ...styles,
+                                    alignItems: "center",
+                                    backgroundColor: "#4d5f75",
+                                };
+                            },
+                            multiValueLabel: (styles) => {
+                                return {
+                                    ...styles,
+                                    color: "#fff",
+                                };
+                            },
+                            multiValueRemove: (styles) => {
+                                return {
+                                    ...styles,
+                                    color: "#2f3a47",
+                                    cursor: "pointer",
+                                    ":hover": {
+                                        color: "red",
+                                    },
+                                };
+                            },
+                        }}
+                    />
+                    <ReactSelect
+                        className=""
+                        instanceId={uid}
+                        options={sortOptions}
+                        value={selectedValue}
+                        onChange={(value) => {
+                            setSelectedValue(value!);
+                        }}
+                        theme={(theme) => ({
+                            ...theme,
+                            colors: {
+                                ...theme.colors,
+                                primary25: "white",
+                                primary: "#3e4c5e",
+                                neutral0: "white",
+                            },
+                        })}
+                        styles={{
+                            control: (styles) => ({
+                                ...styles,
+                                backgroundColor: "white",
+                            }),
+                            container: (styles) => ({
+                                ...styles,
+                                width: "10%",
+                            }),
+                        }}
+                    />
+                </div>
+
                 {loading && (
                     <div className="row g-5">
                         <CardSkeleton />
@@ -70,132 +209,7 @@ export default function Home() {
                 )}
                 <div className="row justify-center g-5">
                     {reposiotryInfo.map((repository: Repository, i: number) => (
-                        <div key={i} className="col-10 md:col-6 lg:col-4">
-                            <div className="shadow-lg p-5 mx-auto rounded-lg min-h-full">
-                                {repository.image !== null && (
-                                    <div className="h-fit">
-                                        <Image
-                                            src={repository.image}
-                                            className="mb-2 mx-auto"
-                                            width={355}
-                                            height={255}
-                                            alt="repo img"
-                                            placeholder="blur"
-                                            blurDataURL="/images/placeholder.png"
-                                        />
-                                    </div>
-                                )}
-
-                                <div className="my-6">
-                                    <h1 className="mb-2 font-bold text-xl">
-                                        {repository.name}
-                                    </h1>
-
-                                    <h2 className="mb-4 font-bold text-xl">
-                                        <span className="font-normal">
-                                            Org: {repository.org}
-                                        </span>
-                                    </h2>
-                                    <div className="flex">
-                                        <p className="mb-2 font-bold">
-                                            Forks:{" "}
-                                            {repository?.forks && (
-                                                <span className="font-normal">
-                                                    {
-                                                        repository?.forks[
-                                                            repository?.forks
-                                                                .length - 1
-                                                        ].forks
-                                                    }
-                                                </span>
-                                            )}
-                                        </p>
-                                        <p className="mx-5">-</p>
-                                        <p className="mb-2 font-bold">
-                                            Stars:{" "}
-                                            <span className="font-normal">
-                                                {
-                                                    repository?.stars[
-                                                        repository?.stars
-                                                            .length - 1
-                                                    ].stars
-                                                }
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div className="flex">
-                                        <p className="mb-4 font-bold">
-                                            Issues:{" "}
-                                            <span className="font-normal">
-                                                {repository?.issues}
-                                            </span>{" "}
-                                        </p>
-                                        <p className="mx-5">-</p>
-                                        <p className="mb-4 font-bold">
-                                            PR:{" "}
-                                            <span className="font-normal">
-                                                {repository?.pr}
-                                            </span>
-                                        </p>
-                                    </div>
-
-                                    <p className="mb-2 font-bold">
-                                        Last Commit:{" "}
-                                        <span className="font-normal">
-                                            {formatDistance(
-                                                new Date(repository?.commit),
-                                                new Date(),
-                                                { addSuffix: true }
-                                            )}
-                                        </span>
-                                    </p>
-                                    <p className="mb-2 font-bold">
-                                        Release Data:{" "}
-                                        <span className="font-normal">
-                                            {format(
-                                                new Date(repository?.create),
-                                                "dd-MM-yyyy"
-                                            )}
-                                        </span>
-                                    </p>
-                                </div>
-
-                                <div className="row">
-                                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
-                                        {repository.name && (
-                                            <Link
-                                                href={`https://github.com/${repository.org}/${repository.name}#readme`}
-                                                target="_blank"
-                                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
-                                            >
-                                                Readme
-                                            </Link>
-                                        )}
-                                    </div>
-                                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
-                                        {repository.name && (
-                                            <Link
-                                                href={`https://github.com/${repository.org}/${repository.name}`}
-                                                target="_blank"
-                                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
-                                            >
-                                                Github
-                                            </Link>
-                                        )}
-                                    </div>
-                                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
-                                        {repository._id && (
-                                            <Link
-                                                href={`${repository._id}`}
-                                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
-                                            >
-                                                Details
-                                            </Link>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <RepoCard key={i} repository={repository} />
                     ))}
                 </div>
             </div>

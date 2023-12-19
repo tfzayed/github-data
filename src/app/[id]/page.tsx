@@ -1,6 +1,6 @@
 "use client";
 
-import DetailSkeleton from "@/components/DetailSkeleton";
+import DetailSkeleton from "@/components/skeleton/DetailSkeleton";
 import { Repository } from "@/types";
 import { format, isValid } from "date-fns";
 import Image from "next/image";
@@ -75,7 +75,7 @@ export default function Page({ params }: { params: { id: string } }) {
                         <div className="row justify-center items-center mb-6">
                             {reposiotryDetails?.image && (
                                 <Image
-                                    className="mb-6 lg:col-6 col-10"
+                                    className="mb-6 lg:col-6 col-10 shadow-lg"
                                     src={reposiotryDetails?.image}
                                     width={800}
                                     height={500}
@@ -99,7 +99,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
                                                 Issues
                                             </h3>
@@ -107,7 +107,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
                                                 Pull Requests
                                             </h3>
@@ -115,7 +115,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
                                                 Last Commit
                                             </h3>
@@ -136,7 +136,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
                                                 Released At
                                             </h3>
@@ -157,7 +157,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
                                                 Fork
                                             </h3>
@@ -172,7 +172,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
                                                 Stars
                                             </h3>
@@ -211,8 +211,8 @@ export default function Page({ params }: { params: { id: string } }) {
                                         stroke="#8884d8"
                                     />
                                     <CartesianGrid stroke="#3e4c5e" />
-                                    <XAxis dataKey="date" stroke="#f0f8ff" />
-                                    <YAxis dataKey="forks" stroke="#f0f8ff" />
+                                    <XAxis dataKey="date" stroke="#3e4c5e" />
+                                    <YAxis dataKey="forks" stroke="#3e4c5e" />
                                     <Tooltip
                                         contentStyle={{
                                             color: "#8884d8",
@@ -243,8 +243,8 @@ export default function Page({ params }: { params: { id: string } }) {
                                         stroke="#8884d8"
                                     />
                                     <CartesianGrid stroke="#3e4c5e" />
-                                    <XAxis dataKey="date" stroke="#f0f8ff" />
-                                    <YAxis dataKey="stars" stroke="#f0f8ff" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis dataKey="stars" stroke="#3e4c5e" />
                                     <Tooltip
                                         contentStyle={{
                                             color: "#8884d8",

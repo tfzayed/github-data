@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import Close from "../svg/Close";
+import Open from "../svg/Open";
 import NavItems from "./NavItems";
-import Close from "./svg/Close";
-import Open from "./svg/Open";
 
 export default function Navbar() {
     const pathname = usePathname();

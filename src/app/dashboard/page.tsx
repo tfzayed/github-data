@@ -33,7 +33,7 @@ async function getData() {
 }
 
 export default function Page() {
-    const chartId = useId();
+    const uid = useId();
     const [inputValue, setValue] = useState<string>();
     const [selectedValue, setSelectedValue] = useState<MultiValue<Repository>>(
         []
@@ -81,7 +81,7 @@ export default function Page() {
                 getOptionLabel={(event: Repository) => event.name}
                 getOptionValue={(event: Repository) => event.name}
                 value={selectedValue}
-                instanceId="select-box"
+                instanceId={uid}
                 onInputChange={(value) => {
                     setValue(value);
                 }}
@@ -98,7 +98,7 @@ export default function Page() {
                     },
                 })}
                 styles={{
-                    control: (styles, state) => ({
+                    control: (styles) => ({
                         ...styles,
                         backgroundColor: "white",
                     }),
@@ -163,7 +163,7 @@ export default function Page() {
             <h3 className="text-center text-2xl mt-10">Stars</h3>
             <div className="responsiveChart-lg">
                 <ResponsiveContainer width="100%" height="100%">
-                    <LineChart width={1000} height={400} id={chartId}>
+                    <LineChart width={1000} height={400} id={uid}>
                         <XAxis
                             dataKey="date"
                             stroke="#3e4c5e"

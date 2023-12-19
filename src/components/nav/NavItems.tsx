@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Plus from "./svg/Plus";
+import Plus from "../svg/Plus";
 
 export default function NavItems({ pathname }: { pathname: string }) {
     return (
