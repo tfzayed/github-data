@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-    background-color: #2c3d55;
-    color: #f0f8ff;
+    /* background-color: #f0f8ff; */
+    color: #2c3d55;
 }
 
 .responsiveChart-lg {

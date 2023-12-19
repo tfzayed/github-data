@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 type RepositoryInfo = { name: string; org: string; image: string };
 
 export default function Add() {
+    const [loading, setLoading] = useState(false);
     const { push } = useRouter();
     let repositoryInfo: RepositoryInfo;
 
@@ -21,6 +23,7 @@ export default function Add() {
 
     const postRepositoryInfo = async (repositoryInfo: RepositoryInfo) => {
         try {
+            setLoading(true);
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/add`,
                 {
@@ -40,6 +43,7 @@ export default function Add() {
             } else {
                 alert(response.error);
             }
+            setLoading(false);
         } catch (error) {
             alert("Error posting repositoryData to server");
         }
@@ -61,7 +65,7 @@ export default function Add() {
                                 <input
                                     id="name"
                                     name="name"
-                                    className="h-14 my-2 p-2 bg-[#2f3a47] focus:outline-none focus:bg-[#3e4c5e] w-full rounded "
+                                    className="h-14 my-2 p-2 bg-[#5b6a7e] focus:outline-none  w-full rounded "
                                     placeholder="statichunt"
                                     type="text"
                                     required
@@ -74,7 +78,7 @@ export default function Add() {
                                 <input
                                     id="org"
                                     name="org"
-                                    className="h-14 my-2 p-2 bg-[#2f3a47] focus:outline-none focus:bg-[#3e4c5e] w-full rounded "
+                                    className="h-14 my-2 p-2 bg-[#5b6a7e] focus:outline-none  w-full rounded "
                                     placeholder="statichunt"
                                     type="text"
                                     required
@@ -88,7 +92,7 @@ export default function Add() {
                                 <input
                                     id="img"
                                     name="img"
-                                    className="h-14 my-2 p-2 bg-[#2f3a47] focus:outline-none focus:bg-[#3e4c5e] w-full rounded "
+                                    className="h-14 my-2 p-2 bg-[#5b6a7e] focus:outline-none  w-full rounded "
                                     placeholder="https://placehold.co/1500x1000/png?text=Statichunt"
                                     type="text"
                                     required
@@ -96,9 +100,9 @@ export default function Add() {
                             </div>
                             <button
                                 type="submit"
-                                className="bg-[#536271] rounded-lg text-center px-10 py-3"
+                                className="text-white bg-[#505f75] rounded-lg text-center px-10 py-3"
                             >
-                                Add
+                                {loading ? "Adding..." : "Add"}
                             </button>
                         </form>
                     </div>

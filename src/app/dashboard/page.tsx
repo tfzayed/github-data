@@ -1,7 +1,8 @@
 "use client";
 
 import { Repository } from "@/types";
-import { useState } from "react";
+import { format } from "date-fns";
+import { useId, useState } from "react";
 import { MultiValue } from "react-select";
 import AsyncSelect from "react-select/async";
 import {
@@ -18,11 +19,7 @@ import {
 async function getData() {
     try {
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`,
-            {
-                cache: "no-store",
-                next: { revalidate: 10 },
-            }
+            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`
         );
 
         if (!res.ok) {
@@ -32,11 +29,11 @@ async function getData() {
         return res.json();
     } catch (error) {
         console.error("Initail Data fetching error:", error);
-        return [];
     }
 }
 
 export default function Page() {
+    const chartId = useId();
     const [inputValue, setValue] = useState<string>();
     const [selectedValue, setSelectedValue] = useState<MultiValue<Repository>>(
         []
@@ -64,11 +61,11 @@ export default function Page() {
         id: index,
         name: dataSet.name,
         forks: dataSet.forks.map((entry) => ({
-            date: entry.date,
+            date: format(new Date(entry.date), "dd-MM-yyyy"),
             forks: entry.forks,
         })),
         stars: dataSet.stars.map((entry) => ({
-            date: entry.date,
+            date: format(new Date(entry.date), "dd-MM-yyyy"),
             stars: entry.stars,
         })),
     }));
@@ -95,16 +92,15 @@ export default function Page() {
                     ...theme,
                     colors: {
                         ...theme.colors,
-                        primary25: "#3e4c5e",
+                        primary25: "white",
                         primary: "#3e4c5e",
-                        neutral0: "#3e4c5e",
+                        neutral0: "white",
                     },
                 })}
                 styles={{
                     control: (styles, state) => ({
                         ...styles,
-                        backgroundColor: "#2f3a47",
-                        borderColor: state.isFocused ? "grey" : "#3e4c5e",
+                        backgroundColor: "white",
                     }),
                     multiValue: (styles) => {
                         return {
@@ -137,13 +133,13 @@ export default function Page() {
             <h3 className="text-center text-2xl mt-10">Forks</h3>
             <div className="responsiveChart-lg">
                 <ResponsiveContainer width="100%" height="100%">
-                    <LineChart width={1000} height={400} id="linechart">
+                    <LineChart width={1000} height={400}>
                         <XAxis
                             dataKey="date"
-                            stroke="#f0f8ff"
+                            stroke="#3e4c5e"
                             allowDuplicatedCategory={false}
                         />
-                        <YAxis dataKey="forks" stroke="#f0f8ff" />
+                        <YAxis dataKey="forks" stroke="#3e4c5e" />
                         <CartesianGrid stroke="#3e4c5e" />
                         <Tooltip contentStyle={{ color: "#8884d8" }} />
                         <Legend />
@@ -152,7 +148,7 @@ export default function Page() {
                                 key={dataSet.id}
                                 type="monotone"
                                 dataKey="forks"
-                                data={dataSet.forks.slice(0, 30)}
+                                data={dataSet.forks.slice(-30)}
                                 name={dataSet.name}
                                 stroke={`#${Math.floor(
                                     Math.random() * 16777215
@@ -167,13 +163,13 @@ export default function Page() {
             <h3 className="text-center text-2xl mt-10">Stars</h3>
             <div className="responsiveChart-lg">
                 <ResponsiveContainer width="100%" height="100%">
-                    <LineChart width={1000} height={400} id="linechart">
+                    <LineChart width={1000} height={400} id={chartId}>
                         <XAxis
                             dataKey="date"
-                            stroke="#f0f8ff"
+                            stroke="#3e4c5e"
                             allowDuplicatedCategory={false}
                         />
-                        <YAxis dataKey="stars" stroke="#f0f8ff" />
+                        <YAxis dataKey="stars" stroke="#3e4c5e" />
                         <CartesianGrid stroke="#3e4c5e" />
                         <Tooltip contentStyle={{ color: "#8884d8" }} />
                         <Legend />
@@ -182,7 +178,7 @@ export default function Page() {
                                 key={dataSet.id}
                                 type="monotone"
                                 dataKey="stars"
-                                data={dataSet.stars.slice(0, 30)}
+                                data={dataSet.stars.slice(-30)}
                                 name={dataSet.name}
                                 stroke={`#${Math.floor(
                                     Math.random() * 16777215

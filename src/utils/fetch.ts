@@ -31,42 +31,36 @@ export const fetchRepositoryData = async (repo: Repository) => {
             image: repo.image,
             forks: [
                 {
-                    date: new Date().toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                    }),
+                    date: new Date(),
                     forks: getRepositoryInfo.forks,
                 },
             ],
             stars: [
                 {
-                    date: new Date().toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                    }),
+                    date: new Date(),
                     stars: getRepositoryInfo.stargazers_count,
                 },
             ],
             issues: getRepositoryInfo.open_issues_count,
             pr: prData.length,
-            commit: new Date(getRepositoryInfo.pushed_at).toLocaleDateString(
-                "en-GB",
-                {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                }
-            ),
-            create: new Date(getRepositoryInfo.created_at).toLocaleDateString(
-                "en-GB",
-                {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                }
-            ),
+            // commit: new Date(getRepositoryInfo.pushed_at).toLocaleDateString(
+            //     "en-GB",
+            //     {
+            //         day: "2-digit",
+            //         month: "2-digit",
+            //         year: "numeric",
+            //     }
+            // ),
+            commit: getRepositoryInfo.pushed_at,
+            // create: new Date(getRepositoryInfo.created_at).toLocaleDateString(
+            //     "en-GB",
+            //     {
+            //         day: "2-digit",
+            //         month: "2-digit",
+            //         year: "numeric",
+            //     }
+            // ),
+            create: getRepositoryInfo.created_at,
         };
     } catch (error) {
         console.error(

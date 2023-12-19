@@ -2,6 +2,7 @@
 
 import CardSkeleton from "@/components/CardSkeleton";
 import { Repository } from "@/types";
+import { format, formatDistance } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,11 +10,7 @@ import { useEffect, useState } from "react";
 async function getData() {
     try {
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`,
-            {
-                cache: "no-store",
-                next: { revalidate: 10 },
-            }
+            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`
         );
 
         if (!res.ok) {
@@ -48,17 +45,19 @@ export default function Home() {
 
     return (
         <>
-            <div className="flex justify-center items-center mb-10">
-                <h1 className="font-bold text-5xl mr-10">Repositories</h1>
+            <div className="flex flex-col lg:flex-row justify-center items-center mb-10">
+                <h1 className="font-bold text-5xl lg:mr-10 mb-2 lg:mb-0">
+                    Repositories
+                </h1>
                 <button
-                    className="bg-[#536271] rounded-lg text-center px-10 py-3"
+                    className="text-white bg-[#505f75] rounded-lg text-center px-10 py-3"
                     onClick={updateInfo}
                     disabled={updating}
                 >
                     {updating ? "updating...." : "update info"}
                 </button>
             </div>
-            <div className="mx-auto max-w-[1320px] px-4">
+            <div className="mx-auto max-w-[1320px] px-2 md:px-4">
                 {loading && (
                     <div className="row g-5">
                         <CardSkeleton />
@@ -72,13 +71,13 @@ export default function Home() {
                 <div className="row justify-center g-5">
                     {reposiotryInfo.map((repository: Repository, i: number) => (
                         <div key={i} className="col-10 md:col-6 lg:col-4">
-                            <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full">
+                            <div className="shadow-lg p-5 mx-auto rounded-lg min-h-full">
                                 {repository.image !== null && (
                                     <div className="h-fit">
                                         <Image
                                             src={repository.image}
                                             className="mb-2 mx-auto"
-                                            width={300}
+                                            width={355}
                                             height={255}
                                             alt="repo img"
                                             placeholder="blur"
@@ -143,45 +142,52 @@ export default function Home() {
                                     <p className="mb-2 font-bold">
                                         Last Commit:{" "}
                                         <span className="font-normal">
-                                            {repository?.commit}
+                                            {formatDistance(
+                                                new Date(repository?.commit),
+                                                new Date(),
+                                                { addSuffix: true }
+                                            )}
                                         </span>
                                     </p>
                                     <p className="mb-2 font-bold">
-                                        Created Data:{" "}
+                                        Release Data:{" "}
                                         <span className="font-normal">
-                                            {repository?.create}
+                                            {format(
+                                                new Date(repository?.create),
+                                                "dd-MM-yyyy"
+                                            )}
                                         </span>
                                     </p>
                                 </div>
 
                                 <div className="row">
-                                    <div className="col-4">
+                                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
                                         {repository.name && (
                                             <Link
                                                 href={`https://github.com/${repository.org}/${repository.name}#readme`}
                                                 target="_blank"
-                                                className="bg-[#536271] rounded-lg text-center block py-3"
+                                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
                                             >
                                                 Readme
                                             </Link>
                                         )}
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
                                         {repository.name && (
                                             <Link
                                                 href={`https://github.com/${repository.org}/${repository.name}`}
                                                 target="_blank"
-                                                className="bg-[#536271] rounded-lg text-center block py-3"
+                                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
                                             >
                                                 Github
                                             </Link>
                                         )}
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
                                         {repository._id && (
                                             <Link
                                                 href={`${repository._id}`}
-                                                className="bg-[#536271] rounded-lg text-center block py-3"
+                                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
                                             >
                                                 Details
                                             </Link>

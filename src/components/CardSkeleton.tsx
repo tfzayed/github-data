@@ -22,13 +22,13 @@ const CardSkeleton = () => {
                 <div className="">
                     <div className="row">
                         <div className="col">
-                            <div className="bg-[#536271] rounded-lg text-center block py-3 h-12"></div>
+                            <div className="text-white bg-[#505f75] rounded-lg text-center block py-3 h-12"></div>
                         </div>
                         <div className="col">
-                            <div className="bg-[#536271] rounded-lg text-center block py-3 h-12"></div>
+                            <div className="text-white bg-[#505f75] rounded-lg text-center block py-3 h-12"></div>
                         </div>
                         <div className="col">
-                            <div className="bg-[#536271] rounded-lg text-center block py-3 h-12"></div>
+                            <div className="text-white bg-[#505f75] rounded-lg text-center block py-3 h-12"></div>
                         </div>
                     </div>
                 </div>

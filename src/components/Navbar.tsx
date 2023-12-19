@@ -2,40 +2,39 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import NavItems from "./NavItems";
+import Close from "./svg/Close";
+import Open from "./svg/Open";
 
 export default function Navbar() {
     const pathname = usePathname();
+    const [toggle, setToggle] = useState(true);
     return (
-        <header className="bg-[#3e4c5e] py-5 mb-10 rounded-b-lg">
-            <nav className="flex justify-between px-4 mx-auto max-w-[1320px]">
-                <div>
-                    <h1 className="text-3xl font-bold">GitHub Data</h1>
+        <header className=" shadow-lg py-5 mb-10 rounded-b-lg">
+            <nav>
+                <div className="flex justify-between items-center px-4 mx-auto max-w-[1320px]">
+                    <div>
+                        <Link href={"/"} className="text-3xl font-bold">
+                            GitHub Data
+                        </Link>
+                    </div>
+                    <button
+                        onClick={() => setToggle(!toggle)}
+                        className="md:hidden"
+                    >
+                        {toggle ? <Open /> : <Close />}
+                    </button>
+                    <div className="hidden md:flex items-center">
+                        <NavItems pathname={pathname} />
+                    </div>
                 </div>
-                <div>
-                    <Link
-                        href={"/"}
-                        className={`text-xl mx-2 lg:mx-6 hover: ${
-                            pathname === "/" && "underline font-semibold"
-                        }`}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        href={"/add-repo"}
-                        className={`text-xl mx-2 lg:mx-6 hover: ${
-                            pathname === "/add-repo" && "underline font-semibold"
-                        }`}
-                    >
-                        Add
-                    </Link>
-                    <Link
-                        href={"/dashboard"}
-                        className={`text-xl mx-2 lg:mx-6 hover: ${
-                            pathname === "/dashboard" && "underline font-semibold"
-                        }`}
-                    >
-                        Dashboard
-                    </Link>
+                <div
+                    className={`${
+                        toggle ? "flex" : "hidden"
+                    } flex-col gap-2 items-center md:hidden`}
+                >
+                    <NavItems pathname={pathname} />
                 </div>
             </nav>
         </header>

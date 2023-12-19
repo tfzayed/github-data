@@ -2,6 +2,7 @@
 
 import DetailSkeleton from "@/components/DetailSkeleton";
 import { Repository } from "@/types";
+import { format, isValid } from "date-fns";
 import Image from "next/image";
 import { useEffect, useId, useState } from "react";
 import {
@@ -17,11 +18,7 @@ import {
 async function getDetails(id: string) {
     try {
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get/${id}`,
-            {
-                cache: "no-store",
-                next: { revalidate: 10 },
-            }
+            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get/${id}`
         );
 
         if (!res.ok) {
@@ -35,10 +32,9 @@ async function getDetails(id: string) {
 }
 
 export default function Page({ params }: { params: { id: string } }) {
+    const chartId = useId();
     const [reposiotryDetails, setReposiotryDetails] = useState<Repository>();
     const [loading, setLoading] = useState(true);
-
-    const chartId = useId();
 
     useEffect(() => {
         setTimeout(() => {
@@ -50,6 +46,15 @@ export default function Page({ params }: { params: { id: string } }) {
                 .catch((error) => console.log("error:", error));
         }, 5000);
     }, [params.id]);
+
+    const formatedForks = reposiotryDetails?.forks.map((entry) => ({
+        forks: entry.forks,
+        date: format(new Date(entry.date), "dd-MM-yyyy"),
+    }));
+    const formatedstars = reposiotryDetails?.stars.map((entry) => ({
+        stars: entry.stars,
+        date: format(new Date(entry.date), "dd-MM-yyyy"),
+    }));
 
     return (
         <>
@@ -114,15 +119,71 @@ export default function Page({ params }: { params: { id: string } }) {
                                             <h3 className="text-xl mb-2">
                                                 Last Commit
                                             </h3>
-                                            <p>{reposiotryDetails?.commit}</p>
+                                            <p>
+                                                {isValid(
+                                                    new Date(
+                                                        reposiotryDetails?.commit!
+                                                    )
+                                                )
+                                                    ? format(
+                                                          new Date(
+                                                              reposiotryDetails?.commit!
+                                                          ),
+                                                          "dd-MM-yyyy"
+                                                      )
+                                                    : "Invalid date"}
+                                            </p>
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
                                         <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
-                                                Created At
+                                                Released At
                                             </h3>
-                                            <p>{reposiotryDetails?.create}</p>
+                                            <p>
+                                                {isValid(
+                                                    new Date(
+                                                        reposiotryDetails?.create!
+                                                    )
+                                                )
+                                                    ? format(
+                                                          new Date(
+                                                              reposiotryDetails?.create!
+                                                          ),
+                                                          "dd-MM-yyyy"
+                                                      )
+                                                    : "Invalid date"}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="mb-4 lg:col-6">
+                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                            <h3 className="text-xl mb-2">
+                                                Fork
+                                            </h3>
+                                            <p>
+                                                {
+                                                    formatedForks![
+                                                        formatedForks!.length -
+                                                            1
+                                                    ].forks
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="mb-4 lg:col-6">
+                                        <div className="text-center bg-[#3e4c5e] rounded-lg px-5 py-3">
+                                            <h3 className="text-xl mb-2">
+                                                Stars
+                                            </h3>
+                                            <p>
+                                                {
+                                                    formatedstars![
+                                                        formatedstars!.length -
+                                                            1
+                                                    ].stars
+                                                }
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +197,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                     id={chartId}
                                     width={1100}
                                     height={400}
-                                    data={reposiotryDetails?.forks}
+                                    data={formatedForks?.slice(-30)}
                                     margin={{
                                         top: 5,
                                         right: 50,
@@ -168,7 +229,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                     id={chartId}
                                     width={1000}
                                     height={400}
-                                    data={reposiotryDetails?.stars}
+                                    data={formatedstars?.slice(0, 30)}
                                     margin={{
                                         top: 5,
                                         right: 50,
