@@ -51,6 +51,11 @@ export default function Home() {
         { value: "statichunt", label: "Statichunt" },
         { value: "gethugothemes", label: "Gethugothemes" },
     ];
+    const selectedOrg = filterValue?.map((item) => item?.value);
+    const filteredRepos =
+        selectedOrg && selectedOrg.length > 0
+            ? reposiotryInfo.filter((item) => selectedOrg.includes(item.org))
+            : reposiotryInfo;
 
     // sorting reposiotry
     const [selectedValue, setSelectedValue] = useState<{
@@ -65,18 +70,18 @@ export default function Home() {
     ];
     switch (selectedValue.value) {
         case "all":
-            reposiotryInfo.sort((a, b) => a.name.localeCompare(b.name));
+            filteredRepos.sort((a, b) => a.name.localeCompare(b.name));
             break;
 
         case "commit":
-            reposiotryInfo.sort(
+            filteredRepos.sort(
                 (a, b) =>
                     (new Date(b.commit) as any) - (new Date(a.commit) as any)
             );
             break;
 
         case "forks":
-            reposiotryInfo.sort(
+            filteredRepos.sort(
                 (a: Repository, b: Repository) =>
                     b.forks[b.forks.length - 1].forks -
                     a.forks[a.forks.length - 1].forks
@@ -84,7 +89,7 @@ export default function Home() {
             break;
 
         case "stars":
-            reposiotryInfo.sort(
+            filteredRepos.sort(
                 (a: Repository, b: Repository) =>
                     b.stars[b.stars.length - 1].stars -
                     a.stars[a.stars.length - 1].stars
@@ -118,10 +123,12 @@ export default function Home() {
             </div>
             <div className="mx-auto max-w-[1320px] px-2 md:px-4">
                 <div className="flex justify-end items-center mb-2">
+                    {/* org select */}
                     <ReactSelect
                         className="mr-2"
                         isMulti
                         instanceId={uid}
+                        placeholder="Organizations"
                         closeMenuOnSelect={false}
                         options={filterOptions}
                         value={filterValue}
@@ -138,6 +145,10 @@ export default function Home() {
                             },
                         })}
                         styles={{
+                            container: (styles) => ({
+                                ...styles,
+                                minWidth: "20%",
+                            }),
                             control: (styles) => ({
                                 ...styles,
                                 backgroundColor: "white",
@@ -167,6 +178,7 @@ export default function Home() {
                             },
                         }}
                     />
+                    {/* sort select */}
                     <ReactSelect
                         className=""
                         instanceId={uid}
@@ -208,7 +220,7 @@ export default function Home() {
                     </div>
                 )}
                 <div className="row justify-center g-5">
-                    {reposiotryInfo.map((repository: Repository, i: number) => (
+                    {filteredRepos.map((repository: Repository, i: number) => (
                         <RepoCard key={i} repository={repository} />
                     ))}
                 </div>

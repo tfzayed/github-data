@@ -11,7 +11,7 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                     <div className="h-fit">
                         <Image
                             src={repository.image}
-                            className="mb-2 mx-auto"
+                            className="mb-2 mx-auto shadow-xl"
                             width={355}
                             height={255}
                             alt="repo img"

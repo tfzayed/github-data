@@ -65,7 +65,7 @@ export default function Add() {
                                 <input
                                     id="name"
                                     name="name"
-                                    className="h-14 my-2 p-2 bg-[#5b6a7e] focus:outline-none  w-full rounded "
+                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
                                     placeholder="statichunt"
                                     type="text"
                                     required
@@ -78,7 +78,7 @@ export default function Add() {
                                 <input
                                     id="org"
                                     name="org"
-                                    className="h-14 my-2 p-2 bg-[#5b6a7e] focus:outline-none  w-full rounded "
+                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
                                     placeholder="statichunt"
                                     type="text"
                                     required
@@ -92,7 +92,7 @@ export default function Add() {
                                 <input
                                     id="img"
                                     name="img"
-                                    className="h-14 my-2 p-2 bg-[#5b6a7e] focus:outline-none  w-full rounded "
+                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
                                     placeholder="https://placehold.co/1500x1000/png?text=Statichunt"
                                     type="text"
                                     required

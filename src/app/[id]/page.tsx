@@ -4,6 +4,7 @@ import DetailSkeleton from "@/components/skeleton/DetailSkeleton";
 import { Repository } from "@/types";
 import { format, isValid } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import {
     CartesianGrid,
@@ -63,10 +64,16 @@ export default function Page({ params }: { params: { id: string } }) {
                     <DetailSkeleton />
                 ) : (
                     <>
+                        {/* for smaller device */}
                         <div className="lg:hidden flex flex-col items-center mb-6">
-                            <h1 className="font-bold text-5xl mb-4">
-                                {reposiotryDetails?.name}
-                            </h1>
+                            <Link
+                                href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
+                                target="_blank"
+                            >
+                                <h1 className="font-bold text-5xl mb-4">
+                                    {reposiotryDetails?.name}
+                                </h1>
+                            </Link>
                             <h2 className="font-bold text-2xl">
                                 {reposiotryDetails?.org}
                             </h2>
@@ -86,13 +93,19 @@ export default function Page({ params }: { params: { id: string } }) {
                                 />
                             )}
 
+                            {/* for large device */}
                             <div className="lg:col-6 col-10">
                                 <div className="row justify-center">
                                     <div className="lg:block hidden mb-4 lg:col-10">
                                         <div className="flex flex-col items-center mb-6">
-                                            <h1 className="font-bold text-5xl mb-4">
-                                                {reposiotryDetails?.name}
-                                            </h1>
+                                            <Link
+                                                href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
+                                                target="_blank"
+                                            >
+                                                <h1 className="font-bold text-5xl mb-4">
+                                                    {reposiotryDetails?.name}
+                                                </h1>
+                                            </Link>
                                             <h2 className="font-bold text-2xl">
                                                 {reposiotryDetails?.org}
                                             </h2>
