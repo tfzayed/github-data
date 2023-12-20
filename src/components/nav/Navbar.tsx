@@ -9,7 +9,7 @@ import NavItems from "./NavItems";
 
 export default function Navbar() {
     const pathname = usePathname();
-    const [toggle, setToggle] = useState(true);
+    const [toggle, setToggle] = useState(false);
     return (
         <header className=" shadow-lg py-5 mb-10 rounded-b-lg">
             <nav>

@@ -48,15 +48,6 @@ export default function Page({ params }: { params: { id: string } }) {
         }, 5000);
     }, [params.id]);
 
-    const formatedForks = reposiotryDetails?.forks.map((entry) => ({
-        forks: entry.forks,
-        date: format(new Date(entry.date), "dd-MM-yyyy"),
-    }));
-    const formatedstars = reposiotryDetails?.stars.map((entry) => ({
-        stars: entry.stars,
-        date: format(new Date(entry.date), "dd-MM-yyyy"),
-    }));
-
     return (
         <>
             <div className="mx-auto max-w-[1320px] px-4">
@@ -65,12 +56,12 @@ export default function Page({ params }: { params: { id: string } }) {
                 ) : (
                     <>
                         {/* for smaller device */}
-                        <div className="lg:hidden flex flex-col items-center mb-6">
+                        <div className="lg:hidden flex flex-col items-center">
                             <Link
                                 href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
                                 target="_blank"
                             >
-                                <h1 className="font-bold text-5xl mb-4">
+                                <h1 className="font-bold text-5xl mb-2">
                                     {reposiotryDetails?.name}
                                 </h1>
                             </Link>
@@ -97,12 +88,12 @@ export default function Page({ params }: { params: { id: string } }) {
                             <div className="lg:col-6 col-10">
                                 <div className="row justify-center">
                                     <div className="lg:block hidden mb-4 lg:col-10">
-                                        <div className="flex flex-col items-center mb-6">
+                                        <div className="flex flex-col items-center ">
                                             <Link
                                                 href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
                                                 target="_blank"
                                             >
-                                                <h1 className="font-bold text-5xl mb-4">
+                                                <h1 className="font-bold text-5xl mb-2">
                                                     {reposiotryDetails?.name}
                                                 </h1>
                                             </Link>
@@ -111,6 +102,8 @@ export default function Page({ params }: { params: { id: string } }) {
                                             </h2>
                                         </div>
                                     </div>
+
+                                    {/* info */}
                                     <div className="mb-4 lg:col-6">
                                         <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
@@ -176,9 +169,9 @@ export default function Page({ params }: { params: { id: string } }) {
                                             </h3>
                                             <p>
                                                 {
-                                                    formatedForks![
-                                                        formatedForks!.length -
-                                                            1
+                                                    reposiotryDetails?.forks![
+                                                        reposiotryDetails?.forks!
+                                                            .length - 1
                                                     ].forks
                                                 }
                                             </p>
@@ -191,9 +184,9 @@ export default function Page({ params }: { params: { id: string } }) {
                                             </h3>
                                             <p>
                                                 {
-                                                    formatedstars![
-                                                        formatedstars!.length -
-                                                            1
+                                                    reposiotryDetails?.stars![
+                                                        reposiotryDetails?.stars!
+                                                            .length - 1
                                                     ].stars
                                                 }
                                             </p>
@@ -210,7 +203,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                     id={chartId}
                                     width={1100}
                                     height={400}
-                                    data={formatedForks?.slice(-30)}
+                                    data={reposiotryDetails?.forks?.slice(-30)}
                                     margin={{
                                         top: 5,
                                         right: 50,
@@ -242,7 +235,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                     id={chartId}
                                     width={1000}
                                     height={400}
-                                    data={formatedstars?.slice(0, 30)}
+                                    data={reposiotryDetails?.stars?.slice(-30)}
                                     margin={{
                                         top: 5,
                                         right: 50,
@@ -252,7 +245,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                 >
                                     <Line
                                         type="monotone"
-                                        dataKey="forks"
+                                        dataKey="stars"
                                         stroke="#8884d8"
                                     />
                                     <CartesianGrid stroke="#3e4c5e" />

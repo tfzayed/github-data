@@ -1,7 +1,6 @@
 "use client";
 
 import { Repository } from "@/types";
-import { format } from "date-fns";
 import { useId, useState } from "react";
 import { MultiValue } from "react-select";
 import AsyncSelect from "react-select/async";
@@ -61,11 +60,11 @@ export default function Page() {
         id: index,
         name: dataSet.name,
         forks: dataSet.forks.map((entry) => ({
-            date: format(new Date(entry.date), "dd-MM-yyyy"),
+            date: entry.date,
             forks: entry.forks,
         })),
         stars: dataSet.stars.map((entry) => ({
-            date: format(new Date(entry.date), "dd-MM-yyyy"),
+            date: entry.date,
             stars: entry.stars,
         })),
     }));

@@ -203,7 +203,7 @@ export default function Home() {
                             }),
                             container: (styles) => ({
                                 ...styles,
-                                width: "10%",
+                                minWidth: "10%",
                             }),
                         }}
                     />

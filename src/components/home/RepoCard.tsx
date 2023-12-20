@@ -75,17 +75,22 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                     <p className="mb-2 font-bold">
                         Last Commit:{" "}
                         <span className="font-normal">
-                            {formatDistance(
-                                new Date(repository?.commit),
-                                new Date(),
-                                { addSuffix: true }
-                            )}
+                            {repository?.commit &&
+                                formatDistance(
+                                    new Date(repository?.commit),
+                                    new Date(),
+                                    { addSuffix: true }
+                                )}
                         </span>
                     </p>
                     <p className="mb-2 font-bold">
                         Release Data:{" "}
                         <span className="font-normal">
-                            {format(new Date(repository?.create), "dd-MM-yyyy")}
+                            {repository?.create &&
+                                format(
+                                    new Date(repository?.create),
+                                    "dd-MM-yyyy"
+                                )}
                         </span>
                     </p>
                 </div>
