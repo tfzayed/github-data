@@ -14,6 +14,7 @@ async function getDetails(id: string) {
         if (!res.ok) {
             throw new Error("Failed to fetch details");
         }
+        
         return res.json();
     } catch (error) {
         console.error("Details fetching error:", error);
@@ -125,6 +126,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             <button
                                 type="submit"
                                 className="text-white bg-[#505f75] rounded-lg text-center px-10 py-3"
+                                disabled={loading}
                             >
                                 {loading ? "Updating..." : "Update"}
                             </button>

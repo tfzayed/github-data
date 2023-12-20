@@ -19,7 +19,11 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <Toaster position="top-center" reverseOrder={false} />
+                <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                    toastOptions={{ duration: 3000 }}
+                />
                 <Navbar />
                 <main className="pb-24">{children}</main>
             </body>

@@ -102,6 +102,7 @@ export default function Add() {
                             <button
                                 type="submit"
                                 className="text-white bg-[#505f75] rounded-lg text-center px-10 py-3"
+                                disabled={loading}
                             >
                                 {loading ? "Adding..." : "Add"}
                             </button>

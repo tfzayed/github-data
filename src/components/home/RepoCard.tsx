@@ -10,19 +10,17 @@ import Star from "../svg/Star";
 export default function RepoCard({ repository }: { repository: Repository }) {
     return (
         <div className="col-10 md:col-6 lg:col-4">
-            <div className="shadow-lg p-5 mx-auto rounded-lg min-h-full">
+            <div className="shadow-lg p-5 mx-auto rounded-lg min-h-full flex flex-col justify-between">
                 {repository.image !== null && (
-                    <div className="h-fit">
-                        <Image
-                            src={repository.image}
-                            className="mb-2 mx-auto shadow-xl"
-                            width={355}
-                            height={255}
-                            alt="repo img"
-                            placeholder="blur"
-                            blurDataURL="/images/placeholder.png"
-                        />
-                    </div>
+                    <Image
+                        src={repository.image}
+                        className="mb-2 mx-auto shadow-xl"
+                        width={355}
+                        height={255}
+                        alt="repository img"
+                        placeholder="blur"
+                        blurDataURL="/images/placeholder.png"
+                    />
                 )}
 
                 <div className="my-6">
