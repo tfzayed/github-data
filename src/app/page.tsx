@@ -3,24 +3,9 @@
 import RepoCard from "@/components/home/RepoCard";
 import CardSkeleton from "@/components/skeleton/CardSkeleton";
 import { Repository } from "@/types";
+import { getData } from "@/utils/get";
 import { useEffect, useId, useState } from "react";
 import ReactSelect, { MultiValue } from "react-select";
-
-async function getData() {
-    try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`
-        );
-
-        if (!res.ok) {
-            throw new Error("Failed to fetch data");
-        }
-
-        return res.json();
-    } catch (error) {
-        console.error("Initail Data fetching error:", error);
-    }
-}
 
 export default function Home() {
     const uid = useId();

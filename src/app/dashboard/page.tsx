@@ -1,6 +1,7 @@
 "use client";
 
 import { Repository } from "@/types";
+import { getData } from "@/utils/get";
 import { useId, useState } from "react";
 import { MultiValue } from "react-select";
 import AsyncSelect from "react-select/async";
@@ -14,22 +15,6 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-
-async function getData() {
-    try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get`
-        );
-
-        if (!res.ok) {
-            throw new Error("Failed to fetch data");
-        }
-
-        return res.json();
-    } catch (error) {
-        console.error("Initail Data fetching error:", error);
-    }
-}
 
 export default function Page() {
     const uid = useId();

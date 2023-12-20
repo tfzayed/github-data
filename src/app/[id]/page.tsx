@@ -2,6 +2,7 @@
 
 import DetailSkeleton from "@/components/skeleton/DetailSkeleton";
 import { Repository } from "@/types";
+import { getDetails } from "@/utils/get";
 import { format, isValid } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,22 +16,6 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-
-async function getDetails(id: string) {
-    try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get/${id}`
-        );
-
-        if (!res.ok) {
-            throw new Error("Failed to fetch details");
-        }
-
-        return res.json();
-    } catch (error) {
-        console.error("Details fetching error:", error);
-    }
-}
 
 export default function Page({ params }: { params: { id: string } }) {
     const chartId = useId();

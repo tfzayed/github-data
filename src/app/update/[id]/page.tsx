@@ -1,25 +1,10 @@
 "use client";
 
 import { Repository, RepositoryInfo } from "@/types";
+import { getDetails } from "@/utils/get";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
-async function getDetails(id: string) {
-    try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get/${id}`
-        );
-
-        if (!res.ok) {
-            throw new Error("Failed to fetch details");
-        }
-        
-        return res.json();
-    } catch (error) {
-        console.error("Details fetching error:", error);
-    }
-}
 
 export default function Page({ params }: { params: { id: string } }) {
     const { back } = useRouter();
