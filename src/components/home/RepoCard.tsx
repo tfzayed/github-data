@@ -33,6 +33,17 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                     </h2>
                     <div className="flex">
                         <p className="mb-2 font-bold">
+                            Stars:{" "}
+                            <span className="font-normal">
+                                {
+                                    repository?.stars[
+                                        repository?.stars.length - 1
+                                    ].stars
+                                }
+                            </span>
+                        </p>
+                        <p className="mx-5">-</p>
+                        <p className="mb-2 font-bold">
                             Forks:{" "}
                             {repository?.forks && (
                                 <span className="font-normal">
@@ -43,17 +54,6 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                                     }
                                 </span>
                             )}
-                        </p>
-                        <p className="mx-5">-</p>
-                        <p className="mb-2 font-bold">
-                            Stars:{" "}
-                            <span className="font-normal">
-                                {
-                                    repository?.stars[
-                                        repository?.stars.length - 1
-                                    ].stars
-                                }
-                            </span>
                         </p>
                     </div>
                     <div className="flex">

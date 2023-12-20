@@ -69,7 +69,6 @@ export default function Page({ params }: { params: { id: string } }) {
                                 {reposiotryDetails?.org}
                             </h2>
                         </div>
-
                         <div className="row justify-center items-center mb-6">
                             {reposiotryDetails?.image && (
                                 <Image
@@ -165,21 +164,6 @@ export default function Page({ params }: { params: { id: string } }) {
                                     <div className="mb-4 lg:col-6">
                                         <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
-                                                Fork
-                                            </h3>
-                                            <p>
-                                                {
-                                                    reposiotryDetails?.forks![
-                                                        reposiotryDetails?.forks!
-                                                            .length - 1
-                                                    ].forks
-                                                }
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
                                                 Stars
                                             </h3>
                                             <p>
@@ -192,8 +176,55 @@ export default function Page({ params }: { params: { id: string } }) {
                                             </p>
                                         </div>
                                     </div>
+                                    <div className="mb-4 lg:col-6">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
+                                            <h3 className="text-xl mb-2">
+                                                Fork
+                                            </h3>
+                                            <p>
+                                                {
+                                                    reposiotryDetails?.forks![
+                                                        reposiotryDetails?.forks!
+                                                            .length - 1
+                                                    ].forks
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <h3 className="text-center text-2xl">Stars</h3>
+                        <div className="responsiveChart">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart
+                                    id={chartId}
+                                    width={1000}
+                                    height={400}
+                                    data={reposiotryDetails?.stars?.slice(-30)}
+                                    margin={{
+                                        top: 5,
+                                        right: 50,
+                                        left: 10,
+                                        bottom: 5,
+                                    }}
+                                >
+                                    <Line
+                                        type="monotone"
+                                        dataKey="stars"
+                                        stroke="#8884d8"
+                                    />
+                                    <CartesianGrid stroke="#3e4c5e" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis dataKey="stars" stroke="#3e4c5e" />
+                                    <Tooltip
+                                        contentStyle={{
+                                            color: "#8884d8",
+                                        }}
+                                    />
+                                </LineChart>
+                            </ResponsiveContainer>
                         </div>
 
                         <h3 className="text-center text-2xl">Forks</h3>
@@ -219,38 +250,6 @@ export default function Page({ params }: { params: { id: string } }) {
                                     <CartesianGrid stroke="#3e4c5e" />
                                     <XAxis dataKey="date" stroke="#3e4c5e" />
                                     <YAxis dataKey="forks" stroke="#3e4c5e" />
-                                    <Tooltip
-                                        contentStyle={{
-                                            color: "#8884d8",
-                                        }}
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-
-                        <h3 className="text-center text-2xl">Stars</h3>
-                        <div className="responsiveChart">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    id={chartId}
-                                    width={1000}
-                                    height={400}
-                                    data={reposiotryDetails?.stars?.slice(-30)}
-                                    margin={{
-                                        top: 5,
-                                        right: 50,
-                                        left: 10,
-                                        bottom: 5,
-                                    }}
-                                >
-                                    <Line
-                                        type="monotone"
-                                        dataKey="stars"
-                                        stroke="#8884d8"
-                                    />
-                                    <CartesianGrid stroke="#3e4c5e" />
-                                    <XAxis dataKey="date" />
-                                    <YAxis dataKey="stars" stroke="#3e4c5e" />
                                     <Tooltip
                                         contentStyle={{
                                             color: "#8884d8",

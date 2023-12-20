@@ -45,8 +45,8 @@ export default function Page() {
             const filteredValues = datas
                 .sort(
                     (a: Repository, b: Repository) =>
-                        b.forks[b.forks.length - 1].forks -
-                        a.forks[a.forks.length - 1].forks
+                        b.stars[b.stars.length - 1].stars -
+                        a.stars[a.stars.length - 1].stars
                 )
                 .filter((data: Repository) => data.name.includes(inputValue));
 
@@ -129,36 +129,6 @@ export default function Page() {
                 }}
             />
 
-            <h3 className="text-center text-2xl mt-10">Forks</h3>
-            <div className="responsiveChart-lg">
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart width={1000} height={400}>
-                        <XAxis
-                            dataKey="date"
-                            stroke="#3e4c5e"
-                            allowDuplicatedCategory={false}
-                        />
-                        <YAxis dataKey="forks" stroke="#3e4c5e" />
-                        <CartesianGrid stroke="#3e4c5e" />
-                        <Tooltip contentStyle={{ color: "#8884d8" }} />
-                        <Legend />
-                        {formattedData.map((dataSet) => (
-                            <Line
-                                key={dataSet.id}
-                                type="monotone"
-                                dataKey="forks"
-                                data={dataSet.forks.slice(-30)}
-                                name={dataSet.name}
-                                stroke={`#${Math.floor(
-                                    Math.random() * 16777215
-                                ).toString(16)}`}
-                                strokeWidth={3}
-                            />
-                        ))}
-                    </LineChart>
-                </ResponsiveContainer>
-            </div>
-
             <h3 className="text-center text-2xl mt-10">Stars</h3>
             <div className="responsiveChart-lg">
                 <ResponsiveContainer width="100%" height="100%">
@@ -178,6 +148,36 @@ export default function Page() {
                                 type="monotone"
                                 dataKey="stars"
                                 data={dataSet.stars.slice(-30)}
+                                name={dataSet.name}
+                                stroke={`#${Math.floor(
+                                    Math.random() * 16777215
+                                ).toString(16)}`}
+                                strokeWidth={3}
+                            />
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
+
+            <h3 className="text-center text-2xl mt-10">Forks</h3>
+            <div className="responsiveChart-lg">
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart width={1000} height={400}>
+                        <XAxis
+                            dataKey="date"
+                            stroke="#3e4c5e"
+                            allowDuplicatedCategory={false}
+                        />
+                        <YAxis dataKey="forks" stroke="#3e4c5e" />
+                        <CartesianGrid stroke="#3e4c5e" />
+                        <Tooltip contentStyle={{ color: "#8884d8" }} />
+                        <Legend />
+                        {formattedData.map((dataSet) => (
+                            <Line
+                                key={dataSet.id}
+                                type="monotone"
+                                dataKey="forks"
+                                data={dataSet.forks.slice(-30)}
                                 name={dataSet.name}
                                 stroke={`#${Math.floor(
                                     Math.random() * 16777215

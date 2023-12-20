@@ -56,20 +56,37 @@ export async function POST(req: Request) {
         } else {
             const info = await fetchRepositoryData(body);
 
-            const repositoryInfo = await new RepositoryModel(info);
+            if (info?.create !== undefined) {
+                const repositoryInfo = await new RepositoryModel(info);
 
-            await repositoryInfo.save();
+                await repositoryInfo.save();
 
-            return NextResponse.json(
-                {
-                    success: "Repository Added",
-                    repositoryInfo: info,
-                },
-                {
-                    status: 200,
-                    headers: getCorsHeaders(req.headers.get("origin") || ""),
-                }
-            );
+                return NextResponse.json(
+                    {
+                        success: "Repository Added",
+                        repositoryInfo: info,
+                    },
+                    {
+                        status: 200,
+                        headers: getCorsHeaders(
+                            req.headers.get("origin") || ""
+                        ),
+                    }
+                );
+            } else {
+                return NextResponse.json(
+                    {
+                        error: "Invalid Info",
+                        repositoryInfo: info,
+                    },
+                    {
+                        status: 422,
+                        headers: getCorsHeaders(
+                            req.headers.get("origin") || ""
+                        ),
+                    }
+                );
+            }
         }
     } catch (error) {
         return NextResponse.json(
@@ -83,4 +100,3 @@ export async function POST(req: Request) {
         );
     }
 }
-
