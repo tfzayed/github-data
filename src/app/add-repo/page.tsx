@@ -3,6 +3,7 @@
 import { RepositoryInfo } from "@/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Add() {
     const [loading, setLoading] = useState(false);
@@ -38,14 +39,14 @@ export default function Add() {
             const response = await res.json();
             const statusCode = res.status;
             if (statusCode === 200) {
-                alert(response.success);
+                toast.success(response.success);
                 push("/");
             } else {
-                alert(response.error);
+                toast.error(response.error);
             }
             setLoading(false);
         } catch (error) {
-            alert("Error posting repositoryData to server");
+            toast.error("Error posting repositoryData to server");
         }
     };
 

@@ -32,7 +32,7 @@ export default function Navbar() {
                 <div
                     className={`${
                         toggle ? "flex" : "hidden"
-                    } flex-col gap-2 items-center md:hidden`}
+                    } flex-col mt-5 gap-2 items-center md:hidden`}
                 >
                     <NavItems pathname={pathname} />
                 </div>

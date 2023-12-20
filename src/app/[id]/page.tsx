@@ -104,6 +104,36 @@ export default function Page({ params }: { params: { id: string } }) {
                                     <div className="mb-4 lg:col-6">
                                         <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
                                             <h3 className="text-xl mb-2">
+                                                Stars
+                                            </h3>
+                                            <p>
+                                                {
+                                                    reposiotryDetails?.stars![
+                                                        reposiotryDetails?.stars!
+                                                            .length - 1
+                                                    ].stars
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="mb-4 lg:col-6">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
+                                            <h3 className="text-xl mb-2">
+                                                Fork
+                                            </h3>
+                                            <p>
+                                                {
+                                                    reposiotryDetails?.forks![
+                                                        reposiotryDetails?.forks!
+                                                            .length - 1
+                                                    ].forks
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="mb-4 lg:col-6">
+                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
+                                            <h3 className="text-xl mb-2">
                                                 Issues
                                             </h3>
                                             <p>{reposiotryDetails?.issues}</p>
@@ -156,36 +186,6 @@ export default function Page({ params }: { params: { id: string } }) {
                                                           "dd-MM-yyyy"
                                                       )
                                                     : "Invalid date"}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Stars
-                                            </h3>
-                                            <p>
-                                                {
-                                                    reposiotryDetails?.stars![
-                                                        reposiotryDetails?.stars!
-                                                            .length - 1
-                                                    ].stars
-                                                }
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Fork
-                                            </h3>
-                                            <p>
-                                                {
-                                                    reposiotryDetails?.forks![
-                                                        reposiotryDetails?.forks!
-                                                            .length - 1
-                                                    ].forks
-                                                }
                                             </p>
                                         </div>
                                     </div>

@@ -3,6 +3,7 @@
 import { Repository, RepositoryInfo } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 async function getDetails(id: string) {
     try {
@@ -53,15 +54,15 @@ export default function Page({ params }: { params: { id: string } }) {
             const response = await res.json();
             const statusCode = res.status;
             if (statusCode === 200) {
-                alert(response.success);
+                toast.success(response.success);
                 push("/");
             } else {
-                alert(response.error);
+                toast.error(response.error);
             }
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            alert("Error updating repositoryInfo to server");
+            toast.error("Error updating repositoryInfo to server");
         }
     };
 

@@ -2,6 +2,10 @@ import { Repository } from "@/types";
 import { format, formatDistance } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import Fork from "../svg/Fork";
+import Issue from "../svg/Issue";
+import Pull from "../svg/Pull";
+import Star from "../svg/Star";
 
 export default function RepoCard({ repository }: { repository: Repository }) {
     return (
@@ -27,13 +31,13 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                     </h1>
 
                     <h2 className="mb-4 font-bold text-xl">
-                        <span className="font-normal">
-                            Org: {repository.org}
-                        </span>
+                        <span className="font-normal">{repository.org}</span>
                     </h2>
+
+                    {/* info */}
                     <div className="flex">
-                        <p className="mb-2 font-bold">
-                            Stars:{" "}
+                        <p className="mb-2 font-bold flex items-center">
+                            <Star /> <span className="ml-2 mr-3">Stars: </span>
                             <span className="font-normal">
                                 {
                                     repository?.stars[
@@ -43,8 +47,8 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                             </span>
                         </p>
                         <p className="mx-5">-</p>
-                        <p className="mb-2 font-bold">
-                            Forks:{" "}
+                        <p className="mb-2 font-bold flex items-center">
+                            <Fork /> <span className="ml-2 mr-3">Forks: </span>
                             {repository?.forks && (
                                 <span className="font-normal">
                                     {
@@ -57,15 +61,16 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                         </p>
                     </div>
                     <div className="flex">
-                        <p className="mb-4 font-bold">
-                            Issues:{" "}
+                        <p className="mb-4 font-bold flex items-center">
+                            <Issue />{" "}
+                            <span className="ml-2 mr-3">Issues: </span>
                             <span className="font-normal">
                                 {repository?.issues}
                             </span>{" "}
                         </p>
                         <p className="mx-5">-</p>
-                        <p className="mb-4 font-bold">
-                            PR:{" "}
+                        <p className="mb-4 font-bold flex items-center">
+                            <Pull /> <span className="ml-2 mr-3">PR: </span>
                             <span className="font-normal">
                                 {repository?.pr}
                             </span>
