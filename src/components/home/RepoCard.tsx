@@ -95,8 +95,8 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                     </p>
                 </div>
 
-                <div className="row">
-                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
+                <div className="row g-1">
+                    <div className="col-12 lg:col-6">
                         {repository.name && (
                             <Link
                                 href={`https://github.com/${repository.org}/${repository.name}#readme`}
@@ -107,7 +107,7 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                             </Link>
                         )}
                     </div>
-                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
+                    <div className="col-12 lg:col-6">
                         {repository.name && (
                             <Link
                                 href={`https://github.com/${repository.org}/${repository.name}`}
@@ -118,13 +118,23 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                             </Link>
                         )}
                     </div>
-                    <div className="col-12 md:col-4 mb-2 lg:mb-0">
+                    <div className="col-12 lg:col-6">
                         {repository._id && (
                             <Link
                                 href={`${repository._id}`}
                                 className="text-white bg-[#505f75] rounded-lg text-center block py-3"
                             >
                                 Details
+                            </Link>
+                        )}
+                    </div>
+                    <div className="col-12 lg:col-6">
+                        {repository._id && (
+                            <Link
+                                href={`update/${repository._id}`}
+                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
+                            >
+                                Update
                             </Link>
                         )}
                     </div>

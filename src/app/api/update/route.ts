@@ -1,6 +1,5 @@
 import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
-import { fetchRepositoryData } from "@/utils/fetch";
 import { NextRequest, NextResponse } from "next/server";
 
 const getCorsHeaders = (origin: string) => {
@@ -38,58 +37,45 @@ export async function POST(req: Request) {
     await connectDB();
 
     try {
-        const existingRepositoryInfo = await RepositoryModel.findOne({
-            name: body.name,
-            org: body.org,
-        });
+        const filter = { _id: body.id };
+        const update = {
+            $set: {
+                name: body.name,
+                org: body.org,
+                image: body.image,
+            },
+        };
 
-        if (existingRepositoryInfo && existingRepositoryInfo.name) {
+        const existingRepositoryInfo = await RepositoryModel.findOneAndUpdate(
+            filter,
+            update
+        );
+
+        if (existingRepositoryInfo !== null) {
             return NextResponse.json(
                 {
-                    error: "Repository already exists",
+                    success: "Repository Updated",
                 },
                 {
-                    status: 500,
+                    status: 200,
                     headers: getCorsHeaders(req.headers.get("origin") || ""),
                 }
             );
         } else {
-            const info = await fetchRepositoryData(body);
-
-            if (info?.create !== undefined) {
-                const repositoryInfo = await new RepositoryModel(info);
-
-                await repositoryInfo.save();
-
-                return NextResponse.json(
-                    {
-                        success: "Repository Added",
-                    },
-                    {
-                        status: 200,
-                        headers: getCorsHeaders(
-                            req.headers.get("origin") || ""
-                        ),
-                    }
-                );
-            } else {
-                return NextResponse.json(
-                    {
-                        error: "Invalid Info",
-                    },
-                    {
-                        status: 422,
-                        headers: getCorsHeaders(
-                            req.headers.get("origin") || ""
-                        ),
-                    }
-                );
-            }
+            return NextResponse.json(
+                {
+                    error: "Repository Update Failed",
+                },
+                {
+                    status: 550,
+                    headers: getCorsHeaders(req.headers.get("origin") || ""),
+                }
+            );
         }
     } catch (error) {
         return NextResponse.json(
             {
-                error: "Error creating github info",
+                error: "Error updating github info",
             },
             {
                 status: 550,

@@ -32,6 +32,11 @@ const nextConfig = {
                 hostname: "camo.githubusercontent.com",
                 port: "",
             },
+            {
+                protocol: "https",
+                hostname: "placehold.co",
+                port: "",
+            },
         ],
     },
 };

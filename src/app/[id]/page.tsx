@@ -38,14 +38,12 @@ export default function Page({ params }: { params: { id: string } }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(() => {
-            getDetails(params.id)
-                .then((res) => {
-                    setReposiotryDetails(res.repositoryInfo);
-                    setLoading(false);
-                })
-                .catch((error) => console.log("error:", error));
-        }, 5000);
+        getDetails(params.id)
+            .then((res) => {
+                setReposiotryDetails(res.repositoryInfo);
+                setLoading(false);
+            })
+            .catch((error) => console.log("error:", error));
     }, [params.id]);
 
     return (
@@ -72,7 +70,7 @@ export default function Page({ params }: { params: { id: string } }) {
                         <div className="row justify-center items-center mb-6">
                             {reposiotryDetails?.image && (
                                 <Image
-                                    className="mb-6 lg:col-6 col-10 shadow-lg"
+                                    className="mb-6 p-5 rounded-lg lg:col-6 col-10 shadow-lg"
                                     src={reposiotryDetails?.image}
                                     width={800}
                                     height={500}
@@ -194,7 +192,7 @@ export default function Page({ params }: { params: { id: string } }) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <h3 className="text-center text-2xl">Stars</h3>
                         <div className="responsiveChart">
                             <ResponsiveContainer width="100%" height="100%">

@@ -11,3 +11,10 @@ export type Repository = {
     commit: string;
     create: string;
 };
+
+export type RepositoryInfo = {
+    id?: string;
+    name: string;
+    org: string;
+    image: string;
+};
