@@ -66,6 +66,14 @@ export default function Page({ params }: { params: { id: string } }) {
                             <h2 className="font-bold text-2xl">
                                 {reposiotryDetails?.org}
                             </h2>
+                            {params.id && (
+                                <Link
+                                    href={`update/${params.id}`}
+                                    className="text-white bg-[#505f75] rounded-lg text-center block px-5 py-2"
+                                >
+                                    Update Info
+                                </Link>
+                            )}
                         </div>
                         <div className="row justify-center items-center mb-6">
                             {reposiotryDetails?.image && (
@@ -85,7 +93,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             <div className="lg:col-6 col-10">
                                 <div className="row justify-center">
                                     <div className="lg:block hidden mb-4 lg:col-10">
-                                        <div className="flex flex-col items-center ">
+                                        <div className="flex flex-col items-center">
                                             <Link
                                                 href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
                                                 target="_blank"
@@ -94,9 +102,17 @@ export default function Page({ params }: { params: { id: string } }) {
                                                     {reposiotryDetails?.name}
                                                 </h1>
                                             </Link>
-                                            <h2 className="font-bold text-2xl">
+                                            <h2 className="font-bold text-2xl mb-2">
                                                 {reposiotryDetails?.org}
                                             </h2>
+                                            {params.id && (
+                                                <Link
+                                                    href={`update/${params.id}`}
+                                                    className="text-white bg-[#505f75] rounded-lg text-center block px-10 py-2"
+                                                >
+                                                    Update Info
+                                                </Link>
+                                            )}
                                         </div>
                                     </div>
 

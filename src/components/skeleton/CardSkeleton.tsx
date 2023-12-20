@@ -1,6 +1,6 @@
 const CardSkeleton = () => {
     return (
-        <div className="col-4">
+        <div className="col-10 md:col-6 lg:col-4">
             <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full animate-pulse">
                 <div className="mb-2 mx-auto h-[225px] w-[300px] bg-gray-400 rounded"></div>
                 <div className="my-6">

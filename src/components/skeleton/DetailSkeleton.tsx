@@ -26,21 +26,27 @@ const DetailSkeleton = () => {
                         <div className="mb-4 lg:col-6">
                             <div className="text-center text-white bg-[#505f75] rounded-lg px-5 py-3 h-24"></div>
                         </div>
+                        <div className="mb-4 lg:col-6">
+                            <div className="text-center text-white bg-[#505f75] rounded-lg px-5 py-3 h-24"></div>
+                        </div>
+                        <div className="mb-4 lg:col-6">
+                            <div className="text-center text-white bg-[#505f75] rounded-lg px-5 py-3 h-24"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center animate-pulse">
                 <h3 className="text-center font-bold text-5xl mb-4 text-white bg-[#505f75] h-12 w-64 rounded"></h3>
             </div>
-            <div className="responsiveChart">
+            <div className="responsiveChart animate-pulse">
                 <div className="text-white bg-[#505f75] h-96 w-full rounded"></div>
             </div>
 
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center animate-pulse">
                 <h3 className="text-center font-bold text-5xl mb-4 text-white bg-[#505f75] h-12 w-64 rounded"></h3>
             </div>
-            <div className="responsiveChart">
+            <div className="responsiveChart animate-pulse">
                 <div className="text-white bg-[#505f75] h-96 w-full rounded"></div>
             </div>
         </div>

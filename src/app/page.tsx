@@ -210,7 +210,7 @@ export default function Home() {
                 </div>
 
                 {loading && (
-                    <div className="row g-5">
+                    <div className="row justify-center g-5">
                         <CardSkeleton />
                         <CardSkeleton />
                         <CardSkeleton />

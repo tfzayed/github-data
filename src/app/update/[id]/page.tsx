@@ -21,7 +21,7 @@ async function getDetails(id: string) {
 }
 
 export default function Page({ params }: { params: { id: string } }) {
-    const { push } = useRouter();
+    const { back } = useRouter();
     const [loading, setLoading] = useState(false);
     const [reposiotryDetails, setReposiotryDetails] = useState<Repository>();
 
@@ -55,7 +55,7 @@ export default function Page({ params }: { params: { id: string } }) {
             const statusCode = res.status;
             if (statusCode === 200) {
                 toast.success(response.success);
-                push("/");
+                back();
             } else {
                 toast.error(response.error);
             }
