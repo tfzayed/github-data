@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
+import { getCorsHeaders } from "@/utils/cors";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request) {

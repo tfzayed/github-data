@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
+import { getCorsHeaders } from "@/utils/cors";
 import { fetchRepositoryData } from "@/utils/fetch";
 import { NextResponse } from "next/server";
 

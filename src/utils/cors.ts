@@ -1,4 +1,4 @@
-const getCorsHeaders = (origin: string) => {
+export const getCorsHeaders = (origin: string) => {
     const headers = {
         "Access-Control-Allow-Methods": `${process.env.ALLOWED_METHODS}`,
         "Access-Control-Allow-Headers": `${process.env.ALLOWED_HEADERS}`,
