@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     await connectDB();
 
     try {
-        const filter = { _id: body.id };
+        const filter = { name: body.name };
         const update = {
             $set: {
                 name: body.name,

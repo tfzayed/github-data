@@ -33,10 +33,12 @@ export const OPTIONS = async (request: NextRequest) => {
 
 export async function GET(
     req: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: { name: string } }
 ) {
     await connectDB();
-    const repositoryInfo = await RepositoryModel.findById(params.id);
+    const repositoryInfo = await RepositoryModel.findOne({
+        name: params.name,
+    });
 
     return NextResponse.json({
         repositoryInfo,

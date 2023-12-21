@@ -30,9 +30,9 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                         <h1 className="font-bold text-xl mr-2">
                             {titleify(repository.name)}
                         </h1>
-                        {repository._id && (
+                        {repository.name && (
                             <Link
-                                href={`update/${repository._id}`}
+                                href={`update/${repository.name}`}
                                 className="font-bold text-2xl"
                             >
                                 <Pen />
@@ -120,9 +120,9 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                         )}
                     </div>
                     <div className="col-12 lg:col-6">
-                        {repository._id && (
+                        {repository.name && (
                             <Link
-                                href={`${repository._id}`}
+                                href={`${repository.name}`}
                                 className="text-white bg-[#505f75] rounded-lg text-center block py-3"
                             >
                                 Details

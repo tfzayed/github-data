@@ -22,7 +22,7 @@ import {
     YAxis,
 } from "recharts";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { name: string } }) {
     const { push } = useRouter();
     const chartId = useId();
     const [reposiotryDetails, setReposiotryDetails] = useState<Repository>();
@@ -55,13 +55,13 @@ export default function Page({ params }: { params: { id: string } }) {
     };
 
     useEffect(() => {
-        getDetails(params.id)
+        getDetails(params.name)
             .then((res) => {
                 setReposiotryDetails(res.repositoryInfo);
                 setLoading(false);
             })
             .catch((error) => console.log("error:", error));
-    }, [params.id]);
+    }, [params.name]);
 
     return (
         <>

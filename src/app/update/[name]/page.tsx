@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { name: string } }) {
     const { back } = useRouter();
     const [loading, setLoading] = useState(false);
     const [reposiotryDetails, setReposiotryDetails] = useState<Repository>();
@@ -15,7 +15,7 @@ export default function Page({ params }: { params: { id: string } }) {
     const onSubmit = (e: any) => {
         e.preventDefault();
         updatedRepositoryInfo = {
-            id: params.id,
+            id: reposiotryDetails?.id,
             name: e.target.name.value,
             org: e.target.org.value,
             image: e.target.img.value,
@@ -53,12 +53,12 @@ export default function Page({ params }: { params: { id: string } }) {
     };
 
     useEffect(() => {
-        getDetails(params.id)
+        getDetails(params.name)
             .then((res) => {
                 setReposiotryDetails(res.repositoryInfo);
             })
             .catch((error) => console.log("error:", error));
-    }, [params.id]);
+    }, [params.name]);
 
     return (
         <>
