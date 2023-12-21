@@ -1,35 +1,43 @@
 const CardSkeleton = () => {
     return (
         <div className="col-10 md:col-6 lg:col-4">
-            <div className="bg-[#3e4c5e] p-10 mx-auto rounded-lg min-h-full animate-pulse">
-                <div className="mb-2 mx-auto h-[225px] w-[300px] bg-gray-400 rounded"></div>
+            <div className="animate-pulse shadow-lg p-5 mx-auto rounded-lg min-h-full flex flex-col justify-between">
+                <div className="bg-gray-300 w-full h-64 mb-2 mx-auto shadow-xl"></div>
+
                 <div className="my-6">
-                    <div className="mb-2 h-6 bg-gray-400 w-1/2 rounded"></div>
-                    <div className="mb-4 h-6 bg-gray-400 w-2/3 rounded"></div>
+                    <div className="flex items-center">
+                        <div className="bg-gray-300 w-full h-6 mb-2 mr-2"></div>
+                    </div>
+
+                    <p className="mb-4 font-bold text">
+                        <span className="bg-gray-300 w-1/4 h-4 inline-block"></span>
+                    </p>
+
                     <div className="flex">
-                        <div className="mb-2 font-bold h-4 bg-gray-400 w-1/4 rounded"></div>
-                        <div className="mx-5 h-4 bg-gray-400 w-px rounded"></div>
-                        <div className="mb-2 font-bold h-4 bg-gray-400 w-1/4 rounded"></div>
+                        <div className="bg-gray-300 w-1/4 h-4 mb-2 mr-3"></div>
+                        <div className="mx-5">-</div>
+                        <div className="bg-gray-300 w-1/4 h-4 mb-2"></div>
                     </div>
                     <div className="flex">
-                        <div className="mb-4 font-bold h-4 bg-gray-400 w-1/4 rounded"></div>
-                        <div className="mx-5 h-4 bg-gray-400 w-px rounded"></div>
-                        <div className="mb-4 font-bold h-4 bg-gray-400 w-1/4 rounded"></div>
+                        <div className="bg-gray-300 w-1/4 h-4 mb-4 mr-3"></div>
+                        <div className="mx-5">-</div>
+                        <div className="bg-gray-300 w-1/4 h-4 mb-4"></div>
                     </div>
-                    <div className="mb-2 font-bold h-4 bg-gray-400 w-1/2 rounded"></div>
-                    <div className="mb-2 font-bold h-4 bg-gray-400 w-2/3 rounded"></div>
+
+                    <p className="mb-2 font-bold">
+                        <span className="bg-gray-300 w-3/4 h-4 inline-block"></span>
+                    </p>
+                    <p className="mb-2 font-bold">
+                        <span className="bg-gray-300 w-3/4 h-4 inline-block"></span>
+                    </p>
                 </div>
-                <div className="">
-                    <div className="row">
-                        <div className="col">
-                            <div className="text-white bg-[#505f75] rounded-lg text-center block py-3 h-12"></div>
-                        </div>
-                        <div className="col">
-                            <div className="text-white bg-[#505f75] rounded-lg text-center block py-3 h-12"></div>
-                        </div>
-                        <div className="col">
-                            <div className="text-white bg-[#505f75] rounded-lg text-center block py-3 h-12"></div>
-                        </div>
+
+                <div className="row g-1">
+                    <div className="col-12 lg:col-6">
+                        <div className="bg-gray-300 w-full h-10 rounded-lg"></div>
+                    </div>
+                    <div className="col-12 lg:col-6">
+                        <div className="bg-gray-300 w-full h-10 rounded-lg"></div>
                     </div>
                 </div>
             </div>

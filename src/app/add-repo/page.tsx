@@ -66,7 +66,7 @@ export default function Add() {
                                 <input
                                     id="name"
                                     name="name"
-                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
+                                    className="h-14 my-2 p-2 border border-border focus:outline-none  w-full rounded "
                                     placeholder="statichunt"
                                     type="text"
                                     required
@@ -79,7 +79,7 @@ export default function Add() {
                                 <input
                                     id="org"
                                     name="org"
-                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
+                                    className="h-14 my-2 p-2 border border-border focus:outline-none  w-full rounded "
                                     placeholder="statichunt"
                                     type="text"
                                     required
@@ -93,7 +93,7 @@ export default function Add() {
                                 <input
                                     id="img"
                                     name="img"
-                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
+                                    className="h-14 my-2 p-2 border border-border focus:outline-none  w-full rounded "
                                     placeholder="https://placehold.co/1500x1000/png?text=Statichunt"
                                     type="text"
                                     required
@@ -101,7 +101,7 @@ export default function Add() {
                             </div>
                             <button
                                 type="submit"
-                                className="text-white bg-[#505f75] rounded-lg text-center px-10 py-3"
+                                className="text-white bg-accent rounded-lg text-center px-10 py-3"
                                 disabled={loading}
                             >
                                 {loading ? "Adding..." : "Add"}

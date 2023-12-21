@@ -33,7 +33,7 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                         {repository.name && (
                             <Link
                                 href={`update/${repository.name}`}
-                                className="font-bold text-2xl"
+                                className="font-bold text-xl"
                             >
                                 <Pen />
                             </Link>
@@ -102,7 +102,10 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                         Release Data:{" "}
                         <span className="font-normal">
                             {repository?.create &&
-                                 format(new Date(repository?.create), "do MMMM, yyyy")}
+                                format(
+                                    new Date(repository?.create),
+                                    "do MMMM, yyyy"
+                                )}
                         </span>
                     </p>
                 </div>
@@ -113,7 +116,7 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                             <Link
                                 href={`https://github.com/${repository.org}/${repository.name}`}
                                 target="_blank"
-                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
+                                className="text-white bg-accent rounded-lg text-center block py-3"
                             >
                                 Github
                             </Link>
@@ -123,7 +126,7 @@ export default function RepoCard({ repository }: { repository: Repository }) {
                         {repository.name && (
                             <Link
                                 href={`${repository.name}`}
-                                className="text-white bg-[#505f75] rounded-lg text-center block py-3"
+                                className="text-white bg-accent rounded-lg text-center block py-3"
                             >
                                 Details
                             </Link>

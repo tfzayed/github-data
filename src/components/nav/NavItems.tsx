@@ -22,7 +22,7 @@ export default function NavItems({ pathname }: { pathname: string }) {
             </Link>
             <Link
                 href={"/add-repo"}
-                className="text-xl text-white bg-[#505f75] rounded-lg"
+                className="text-xl text-white bg-accent rounded-lg"
             >
                 <button className="flex items-center px-6 py-2">
                     <Plus />

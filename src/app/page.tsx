@@ -99,7 +99,7 @@ export default function Home() {
                     Repositories
                 </h1>
                 <button
-                    className="text-white bg-[#505f75] rounded-lg text-center px-10 py-3"
+                    className="text-white bg-accent rounded-lg text-center px-10 py-3"
                     onClick={updateInfo}
                     disabled={updating}
                 >
@@ -107,91 +107,101 @@ export default function Home() {
                 </button>
             </div>
             <div className="mx-auto max-w-[1320px] px-2 md:px-4">
-                <div className="flex justify-end items-center mb-2">
-                    {/* org select */}
-                    <ReactSelect
-                        className="mr-2"
-                        isMulti
-                        instanceId={uid}
-                        placeholder="Organizations"
-                        closeMenuOnSelect={false}
-                        options={filterOptions}
-                        value={filterValue}
-                        onChange={(value) => {
-                            setFilterValue(value);
-                        }}
-                        theme={(theme) => ({
-                            ...theme,
-                            colors: {
-                                ...theme.colors,
-                                primary25: "white",
-                                primary: "#3e4c5e",
-                                neutral0: "white",
-                            },
-                        })}
-                        styles={{
-                            container: (styles) => ({
-                                ...styles,
-                                minWidth: "20%",
-                            }),
-                            control: (styles) => ({
-                                ...styles,
-                                backgroundColor: "white",
-                            }),
-                            multiValue: (styles) => {
-                                return {
+                <div className="row justify-end g-2 mb-2">
+                    <div className="col-auto">
+                        {/* org select */}
+                        <ReactSelect
+                            isMulti
+                            instanceId={uid}
+                            placeholder="Organizations"
+                            closeMenuOnSelect={false}
+                            options={filterOptions}
+                            value={filterValue}
+                            onChange={(value) => {
+                                setFilterValue(value);
+                            }}
+                            theme={(theme) => ({
+                                ...theme,
+                                colors: {
+                                    ...theme.colors,
+                                    primary25: "white",
+                                    primary: "#3e4c5e",
+                                    neutral0: "white",
+                                },
+                            })}
+                            styles={{
+                                container: (styles) => ({
                                     ...styles,
                                     alignItems: "center",
-                                    backgroundColor: "#a4b0bf",
-                                };
-                            },
-                            multiValueLabel: (styles) => {
-                                return {
+                                    fontSize: "1.3rem",
+                                    minWidth: "20%",
+                                    minHeight: "30px",
+                                }),
+                                control: (styles) => ({
                                     ...styles,
-                                    color: "#2c3d55",
-                                };
-                            },
-                            multiValueRemove: (styles) => {
-                                return {
+                                    backgroundColor: "white",
+                                }),
+                                multiValue: (styles) => {
+                                    return {
+                                        ...styles,
+                                        fontSize: "1.5rem",
+                                        alignItems: "center",
+                                        height: "30px",
+                                        backgroundColor: "#a4b0bf",
+                                    };
+                                },
+                                multiValueLabel: (styles) => {
+                                    return {
+                                        ...styles,
+                                        color: "#2c3d55",
+                                    };
+                                },
+                                multiValueRemove: (styles) => {
+                                    return {
+                                        ...styles,
+                                        color: "#000",
+                                        cursor: "pointer",
+                                        ":hover": {
+                                            color: "red",
+                                        },
+                                    };
+                                },
+                            }}
+                        />
+                    </div>
+                    <div className="col-auto">
+                        {/* sort select */}
+                        <ReactSelect
+                            instanceId={uid}
+                            options={sortOptions}
+                            value={selectedValue}
+                            onChange={(value) => {
+                                setSelectedValue(value!);
+                            }}
+                            theme={(theme) => ({
+                                ...theme,
+                                colors: {
+                                    ...theme.colors,
+                                    primary25: "white",
+                                    primary: "#3e4c5e",
+                                    neutral0: "white",
+                                },
+                            })}
+                            styles={{
+                                container: (styles) => ({
                                     ...styles,
-                                    color: "#000",
-                                    cursor: "pointer",
-                                    ":hover": {
-                                        color: "red",
-                                    },
-                                };
-                            },
-                        }}
-                    />
-                    {/* sort select */}
-                    <ReactSelect
-                        className=""
-                        instanceId={uid}
-                        options={sortOptions}
-                        value={selectedValue}
-                        onChange={(value) => {
-                            setSelectedValue(value!);
-                        }}
-                        theme={(theme) => ({
-                            ...theme,
-                            colors: {
-                                ...theme.colors,
-                                primary25: "white",
-                                primary: "#3e4c5e",
-                                neutral0: "white",
-                            },
-                        })}
-                        styles={{
-                            control: (styles) => ({
-                                ...styles,
-                                backgroundColor: "white",
-                            }),
-                            container: (styles) => ({
-                                ...styles,
-                                minWidth: "10%",
-                            }),
-                        }}
-                    />
+                                    alignItems: "center",
+                                    fontSize: "1.3rem",
+                                    minWidth: "15%",
+                                    minHeight: "30px",
+                                }),
+                                control: (styles) => ({
+                                    ...styles,
+                                    backgroundColor: "white",
+                                }),
+                            }}
+                        />
+                    </div>
                 </div>
 
                 {loading && (

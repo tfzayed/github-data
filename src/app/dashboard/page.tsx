@@ -82,6 +82,12 @@ export default function Page() {
                     },
                 })}
                 styles={{
+                    container: (styles) => ({
+                        ...styles,
+                        alignItems: "center",
+                        fontSize: "1.3rem",
+                        minHeight: "30px",
+                    }),
                     control: (styles) => ({
                         ...styles,
                         backgroundColor: "white",
@@ -89,7 +95,7 @@ export default function Page() {
                     multiValue: (styles) => {
                         return {
                             ...styles,
-                            fontSize: "1.3rem",
+                            fontSize: "1.5rem",
                             alignItems: "center",
                             height: "30px",
                             backgroundColor: "#a4b0bf",
@@ -124,7 +130,7 @@ export default function Page() {
                             allowDuplicatedCategory={false}
                         />
                         <YAxis dataKey="stars" stroke="#3e4c5e" />
-                        <CartesianGrid  stroke="#3e4c5e" />
+                        <CartesianGrid stroke="#3e4c5e" />
                         <Tooltip contentStyle={{ color: "#8884d8" }} />
                         <Legend />
                         {formattedData.map((dataSet) => (

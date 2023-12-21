@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { name: string } }) {
     const deleteRepo = async (id: string) => {
         try {
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get/${id}`,
+                `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/delete/${id}`,
                 {
                     method: "DELETE",
                     body: JSON.stringify(id),
@@ -76,9 +76,11 @@ export default function Page({ params }: { params: { name: string } }) {
                                 href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
                                 target="_blank"
                             >
-                                <h1 className="font-bold text-5xl mb-2">
-                                    {titleify(reposiotryDetails?.name!)}
-                                </h1>
+                                {reposiotryDetails?.name && (
+                                    <h1 className="font-bold text-5xl mb-2">
+                                        {titleify(reposiotryDetails?.name)}
+                                    </h1>
+                                )}
                             </Link>
                             <h2 className="font-bold text-2xl">
                                 {reposiotryDetails?.org}
@@ -113,23 +115,11 @@ export default function Page({ params }: { params: { name: string } }) {
                                             </h1>
                                         </Link>
                                         <Link
-                                            href={`update/${reposiotryDetails?._id}`}
+                                            href={`update/${reposiotryDetails?.name}`}
                                             className="font-bold text-4xl mr-2"
                                         >
                                             <Pen />
                                         </Link>
-                                        {reposiotryDetails?._id && (
-                                            <button
-                                                onClick={() =>
-                                                    deleteRepo(
-                                                        reposiotryDetails?._id
-                                                    )
-                                                }
-                                                className="font-bold text-4xl"
-                                            >
-                                                <Delete />
-                                            </button>
-                                        )}
                                     </div>
                                     <h2 className="font-bold text-2xl mb-2">
                                         {reposiotryDetails?.org}
@@ -137,8 +127,8 @@ export default function Page({ params }: { params: { name: string } }) {
                                 </div>
                                 <div className="row justify-center">
                                     {/* info */}
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                    <div className="mb-4 col-6">
+                                        <div className="flex justify-center items-center text-center bg-info rounded-lg px-5 py-5">
                                             <h3 className="text-xl">
                                                 Stars:{" "}
                                                 {
@@ -150,8 +140,8 @@ export default function Page({ params }: { params: { name: string } }) {
                                             </h3>
                                         </div>
                                     </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                    <div className="mb-4 col-6">
+                                        <div className="flex justify-center items-center text-center bg-info rounded-lg px-5 py-5">
                                             <h3 className="text-xl">
                                                 Fork:{" "}
                                                 {
@@ -163,16 +153,16 @@ export default function Page({ params }: { params: { name: string } }) {
                                             </h3>
                                         </div>
                                     </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                    <div className="mb-4 col-6">
+                                        <div className="flex justify-center items-center text-center bg-info rounded-lg px-5 py-5">
                                             <h3 className="text-xl">
                                                 Issues:{" "}
                                                 {reposiotryDetails?.issues}
                                             </h3>
                                         </div>
                                     </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                    <div className="mb-4 col-6">
+                                        <div className="flex justify-center items-center text-center bg-info rounded-lg px-5 py-5">
                                             <h3 className="text-xl">
                                                 Pull Requests:{" "}
                                                 {reposiotryDetails?.pr}
@@ -180,7 +170,7 @@ export default function Page({ params }: { params: { name: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 col-12">
-                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                        <div className="flex justify-center items-center text-center bg-info rounded-lg px-5 py-5">
                                             <h3 className="text-xl">
                                                 Last Commit:{" "}
                                                 {formatDistance(
@@ -194,7 +184,7 @@ export default function Page({ params }: { params: { name: string } }) {
                                         </div>
                                     </div>
                                     <div className="mb-4 col-12">
-                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                        <div className="flex justify-center items-center text-center bg-info rounded-lg px-5 py-5">
                                             <h3 className="text-xl">
                                                 Released At:{" "}
                                                 {isValid(
@@ -302,6 +292,19 @@ export default function Page({ params }: { params: { name: string } }) {
                                     </ResponsiveContainer>
                                 </div>
                             </div>
+                            {reposiotryDetails?._id && (
+                                <div className="flex justify-center mt-10">
+                                    <button
+                                        onClick={() =>
+                                            deleteRepo(reposiotryDetails?._id)
+                                        }
+                                        className="text-white bg-red-500 rounded-lg text-center px-20 py-3 w-fit flex items-center"
+                                    >
+                                        <span className="mr-2">Delete</span>{" "}
+                                        <Delete />
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </>
                 )}

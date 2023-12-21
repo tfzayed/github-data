@@ -77,8 +77,7 @@ export default function Page({ params }: { params: { name: string } }) {
                                     defaultValue={reposiotryDetails?.name}
                                     id="name"
                                     name="name"
-                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
-                                    placeholder="statichunt"
+                                    className="h-14 my-2 p-2 border border-border focus:outline-none  w-full rounded "
                                     type="text"
                                 />
                             </div>
@@ -90,8 +89,7 @@ export default function Page({ params }: { params: { name: string } }) {
                                     defaultValue={reposiotryDetails?.org}
                                     id="org"
                                     name="org"
-                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
-                                    placeholder="statichunt"
+                                    className="h-14 my-2 p-2 border border-border focus:outline-none  w-full rounded "
                                     type="text"
                                 />
                             </div>
@@ -103,14 +101,13 @@ export default function Page({ params }: { params: { name: string } }) {
                                     defaultValue={reposiotryDetails?.image}
                                     id="img"
                                     name="img"
-                                    className="h-14 my-2 p-2 border border-[#5b6a7e] focus:outline-none  w-full rounded "
-                                    placeholder="https://placehold.co/1500x1000/png?text=Statichunt"
+                                    className="h-14 my-2 p-2 border border-border focus:outline-none  w-full rounded "
                                     type="text"
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="text-white bg-[#505f75] rounded-lg text-center px-10 py-3"
+                                className="text-white bg-accent rounded-lg text-center px-10 py-3"
                                 disabled={loading}
                             >
                                 {loading ? "Updating..." : "Update"}

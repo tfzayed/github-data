@@ -1,31 +1,23 @@
 import connectDB from "@/lib/db";
 import RepositoryModel from "@/model/RepoModel";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function DELETE(req: Request) {
     const body = await req.json();
 
     await connectDB();
 
     try {
-        const filter = { name: body.name };
-        const update = {
-            $set: {
-                name: body.name,
-                org: body.org,
-                image: body.image,
-            },
-        };
+        const filter = { _id: body };
 
-        const existingRepositoryInfo = await RepositoryModel.findOneAndUpdate(
-            filter,
-            update
+        const deletedRepositoryInfo = await RepositoryModel.findByIdAndDelete(
+            filter
         );
 
-        if (existingRepositoryInfo !== null) {
+        if (deletedRepositoryInfo !== null) {
             return NextResponse.json(
                 {
-                    success: "Repository Updated",
+                    success: "Repository Deleted",
                 },
                 {
                     status: 200,
@@ -35,7 +27,7 @@ export async function POST(req: Request) {
         } else {
             return NextResponse.json(
                 {
-                    error: "Repository Update Failed",
+                    error: "Repository Delete Failed",
                 },
                 {
                     status: 550,
@@ -46,7 +38,7 @@ export async function POST(req: Request) {
     } catch (error) {
         return NextResponse.json(
             {
-                error: "Error updating github info",
+                error: "Error deleting repository",
             },
             {
                 status: 550,
