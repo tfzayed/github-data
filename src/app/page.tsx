@@ -95,7 +95,7 @@ export default function Home() {
     return (
         <>
             <div className="flex flex-col lg:flex-row justify-center items-center mb-10">
-                <h1 className="font-bold text-5xl lg:mr-10 mb-2 lg:mb-0">
+                <h1 className="font-bold text-5xl lg:mr-6 mb-2 lg:mb-0">
                     Repositories
                 </h1>
                 <button

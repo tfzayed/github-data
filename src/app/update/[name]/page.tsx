@@ -71,7 +71,7 @@ export default function Page({ params }: { params: { name: string } }) {
                         <form className="" onSubmit={onSubmit}>
                             <div className="mb-4">
                                 <label htmlFor="name" className="text-lg">
-                                    Name
+                                    Repository Name
                                 </label>
                                 <input
                                     defaultValue={reposiotryDetails?.name}
@@ -83,7 +83,7 @@ export default function Page({ params }: { params: { name: string } }) {
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="org" className="text-lg">
-                                    Org
+                                    Organization
                                 </label>
                                 <input
                                     defaultValue={reposiotryDetails?.org}

@@ -61,7 +61,8 @@ export default function Add() {
                         <form className="" onSubmit={onSubmit}>
                             <div className="mb-4">
                                 <label htmlFor="name" className="text-lg">
-                                    Name <span className="text-red-500">*</span>
+                                    Repository Name{" "}
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     id="name"
@@ -74,7 +75,8 @@ export default function Add() {
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="org" className="text-lg">
-                                    Org <span className="text-red-500">*</span>
+                                    Organization{" "}
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     id="org"
