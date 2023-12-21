@@ -16,7 +16,7 @@ export default function Home() {
     // update repository info from github api
     const updateInfo = async () => {
         setUpdating(true),
-            await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api`),
+            await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/db-sync`),
             setUpdating(false),
             window.location.reload();
     };
@@ -142,19 +142,19 @@ export default function Home() {
                                 return {
                                     ...styles,
                                     alignItems: "center",
-                                    backgroundColor: "#4d5f75",
+                                    backgroundColor: "#a4b0bf",
                                 };
                             },
                             multiValueLabel: (styles) => {
                                 return {
                                     ...styles,
-                                    color: "#fff",
+                                    color: "#2c3d55",
                                 };
                             },
                             multiValueRemove: (styles) => {
                                 return {
                                     ...styles,
-                                    color: "#2f3a47",
+                                    color: "#000",
                                     cursor: "pointer",
                                     ":hover": {
                                         color: "red",

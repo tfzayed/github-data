@@ -92,19 +92,19 @@ export default function Page() {
                             fontSize: "1.3rem",
                             alignItems: "center",
                             height: "30px",
-                            backgroundColor: "#4d5f75",
+                            backgroundColor: "#a4b0bf",
                         };
                     },
                     multiValueLabel: (styles) => {
                         return {
                             ...styles,
-                            color: "#fff",
+                            color: "#2c3d55",
                         };
                     },
                     multiValueRemove: (styles) => {
                         return {
                             ...styles,
-                            color: "#2f3a47",
+                            color: "#000",
                             cursor: "pointer",
                             ":hover": {
                                 color: "red",
@@ -124,7 +124,7 @@ export default function Page() {
                             allowDuplicatedCategory={false}
                         />
                         <YAxis dataKey="stars" stroke="#3e4c5e" />
-                        <CartesianGrid stroke="#3e4c5e" />
+                        <CartesianGrid  stroke="#3e4c5e" />
                         <Tooltip contentStyle={{ color: "#8884d8" }} />
                         <Legend />
                         {formattedData.map((dataSet) => (

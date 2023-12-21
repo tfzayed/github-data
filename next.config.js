@@ -29,6 +29,11 @@ const nextConfig = {
             },
             {
                 protocol: "https",
+                hostname: "https://statichunt-images.netlify.app/",
+                port: "",
+            },
+            {
+                protocol: "https",
                 hostname: "camo.githubusercontent.com",
                 port: "",
             },

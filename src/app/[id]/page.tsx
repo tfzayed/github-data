@@ -1,12 +1,17 @@
 "use client";
 
 import DetailSkeleton from "@/components/skeleton/DetailSkeleton";
+import Delete from "@/components/svg/Delete";
+import Pen from "@/components/svg/Pen";
 import { Repository } from "@/types";
 import { getDetails } from "@/utils/get";
-import { format, isValid } from "date-fns";
+import { titleify } from "@/utils/textConverter";
+import { format, formatDistance, isValid } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useId, useState } from "react";
+import toast from "react-hot-toast";
 import {
     CartesianGrid,
     Line,
@@ -18,9 +23,36 @@ import {
 } from "recharts";
 
 export default function Page({ params }: { params: { id: string } }) {
+    const { push } = useRouter();
     const chartId = useId();
     const [reposiotryDetails, setReposiotryDetails] = useState<Repository>();
     const [loading, setLoading] = useState(true);
+
+    const deleteRepo = async (id: string) => {
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/get/${id}`,
+                {
+                    method: "DELETE",
+                    body: JSON.stringify(id),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            const response = await res.json();
+            const statusCode = res.status;
+            if (statusCode === 200) {
+                push("/");
+                toast.success(response.success);
+            } else {
+                toast.error(response.error);
+            }
+        } catch (error) {
+            toast.error("Delete Failed");
+        }
+    };
 
     useEffect(() => {
         getDetails(params.id)
@@ -45,20 +77,12 @@ export default function Page({ params }: { params: { id: string } }) {
                                 target="_blank"
                             >
                                 <h1 className="font-bold text-5xl mb-2">
-                                    {reposiotryDetails?.name}
+                                    {titleify(reposiotryDetails?.name!)}
                                 </h1>
                             </Link>
                             <h2 className="font-bold text-2xl">
                                 {reposiotryDetails?.org}
                             </h2>
-                            {params.id && (
-                                <Link
-                                    href={`update/${params.id}`}
-                                    className="text-white bg-[#505f75] rounded-lg text-center block px-5 py-2"
-                                >
-                                    Update Info
-                                </Link>
-                            )}
                         </div>
                         <div className="row justify-center items-center mb-6">
                             {reposiotryDetails?.image && (
@@ -76,105 +100,103 @@ export default function Page({ params }: { params: { id: string } }) {
 
                             {/* for large device */}
                             <div className="lg:col-6 col-10">
-                                <div className="row justify-center">
-                                    <div className="lg:block hidden mb-4 lg:col-10">
-                                        <div className="flex flex-col items-center">
-                                            <Link
-                                                href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
-                                                target="_blank"
+                                <div className="lg:block hidden mb-4 lg:col-12">
+                                    <div className="flex items-center">
+                                        <Link
+                                            href={`https://github.com/${reposiotryDetails?.org}/${reposiotryDetails?.name}`}
+                                            target="_blank"
+                                        >
+                                            <h1 className="font-bold text-5xl mb-2 mr-4">
+                                                {titleify(
+                                                    reposiotryDetails?.name!
+                                                )}
+                                            </h1>
+                                        </Link>
+                                        <Link
+                                            href={`update/${reposiotryDetails?._id}`}
+                                            className="font-bold text-4xl mr-2"
+                                        >
+                                            <Pen />
+                                        </Link>
+                                        {reposiotryDetails?._id && (
+                                            <button
+                                                onClick={() =>
+                                                    deleteRepo(
+                                                        reposiotryDetails?._id
+                                                    )
+                                                }
+                                                className="font-bold text-4xl"
                                             >
-                                                <h1 className="font-bold text-5xl mb-2">
-                                                    {reposiotryDetails?.name}
-                                                </h1>
-                                            </Link>
-                                            <h2 className="font-bold text-2xl mb-2">
-                                                {reposiotryDetails?.org}
-                                            </h2>
-                                            {params.id && (
-                                                <Link
-                                                    href={`update/${params.id}`}
-                                                    className="text-white bg-[#505f75] rounded-lg text-center block px-10 py-2"
-                                                >
-                                                    Update Info
-                                                </Link>
-                                            )}
-                                        </div>
+                                                <Delete />
+                                            </button>
+                                        )}
                                     </div>
-
+                                    <h2 className="font-bold text-2xl mb-2">
+                                        {reposiotryDetails?.org}
+                                    </h2>
+                                </div>
+                                <div className="row justify-center">
                                     {/* info */}
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Stars
-                                            </h3>
-                                            <p>
+                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                            <h3 className="text-xl">
+                                                Stars:{" "}
                                                 {
                                                     reposiotryDetails?.stars![
                                                         reposiotryDetails?.stars!
                                                             .length - 1
                                                     ].stars
                                                 }
-                                            </p>
+                                            </h3>
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Fork
-                                            </h3>
-                                            <p>
+                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                            <h3 className="text-xl">
+                                                Fork:{" "}
                                                 {
                                                     reposiotryDetails?.forks![
                                                         reposiotryDetails?.forks!
                                                             .length - 1
                                                     ].forks
                                                 }
-                                            </p>
+                                            </h3>
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Issues
+                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                            <h3 className="text-xl">
+                                                Issues:{" "}
+                                                {reposiotryDetails?.issues}
                                             </h3>
-                                            <p>{reposiotryDetails?.issues}</p>
                                         </div>
                                     </div>
                                     <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Pull Requests
+                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                            <h3 className="text-xl">
+                                                Pull Requests:{" "}
+                                                {reposiotryDetails?.pr}
                                             </h3>
-                                            <p>{reposiotryDetails?.pr}</p>
                                         </div>
                                     </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Last Commit
-                                            </h3>
-                                            <p>
-                                                {isValid(
+                                    <div className="mb-4 col-12">
+                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                            <h3 className="text-xl">
+                                                Last Commit:{" "}
+                                                {formatDistance(
                                                     new Date(
                                                         reposiotryDetails?.commit!
-                                                    )
-                                                )
-                                                    ? format(
-                                                          new Date(
-                                                              reposiotryDetails?.commit!
-                                                          ),
-                                                          "dd-MM-yyyy"
-                                                      )
-                                                    : "Invalid date"}
-                                            </p>
+                                                    ),
+                                                    new Date(),
+                                                    { addSuffix: true }
+                                                )}
+                                            </h3>
                                         </div>
                                     </div>
-                                    <div className="mb-4 lg:col-6">
-                                        <div className="text-center bg-[#3e4c5e] text-white rounded-lg px-5 py-3">
-                                            <h3 className="text-xl mb-2">
-                                                Released At
-                                            </h3>
-                                            <p>
+                                    <div className="mb-4 col-12">
+                                        <div className="flex justify-center items-center text-center bg-[#a4b0bf] rounded-lg px-5 py-5">
+                                            <h3 className="text-xl">
+                                                Released At:{" "}
                                                 {isValid(
                                                     new Date(
                                                         reposiotryDetails?.create!
@@ -184,78 +206,102 @@ export default function Page({ params }: { params: { id: string } }) {
                                                           new Date(
                                                               reposiotryDetails?.create!
                                                           ),
-                                                          "dd-MM-yyyy"
+                                                          "do MMMM, yyyy"
                                                       )
                                                     : "Invalid date"}
-                                            </p>
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <h3 className="text-center text-2xl">Stars</h3>
-                        <div className="responsiveChart">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    id={chartId}
-                                    width={1000}
-                                    height={400}
-                                    data={reposiotryDetails?.stars?.slice(-30)}
-                                    margin={{
-                                        top: 5,
-                                        right: 50,
-                                        left: 10,
-                                        bottom: 5,
-                                    }}
-                                >
-                                    <Line
-                                        type="monotone"
-                                        dataKey="stars"
-                                        stroke="#8884d8"
-                                    />
-                                    <CartesianGrid stroke="#3e4c5e" />
-                                    <XAxis dataKey="date" />
-                                    <YAxis dataKey="stars" stroke="#3e4c5e" />
-                                    <Tooltip
-                                        contentStyle={{
-                                            color: "#8884d8",
-                                        }}
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-
-                        <h3 className="text-center text-2xl">Forks</h3>
-                        <div className="responsiveChart">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart
-                                    id={chartId}
-                                    width={1100}
-                                    height={400}
-                                    data={reposiotryDetails?.forks?.slice(-30)}
-                                    margin={{
-                                        top: 5,
-                                        right: 50,
-                                        left: 10,
-                                        bottom: 5,
-                                    }}
-                                >
-                                    <Line
-                                        type="monotone"
-                                        dataKey="forks"
-                                        stroke="#8884d8"
-                                    />
-                                    <CartesianGrid stroke="#3e4c5e" />
-                                    <XAxis dataKey="date" stroke="#3e4c5e" />
-                                    <YAxis dataKey="forks" stroke="#3e4c5e" />
-                                    <Tooltip
-                                        contentStyle={{
-                                            color: "#8884d8",
-                                        }}
-                                    />
-                                </LineChart>
-                            </ResponsiveContainer>
+                        <div className="row">
+                            <div className="col-12 lg:col-6">
+                                <h3 className="text-center text-2xl">Stars</h3>
+                                <div className="responsiveChart">
+                                    <ResponsiveContainer
+                                        width="100%"
+                                        height="100%"
+                                    >
+                                        <LineChart
+                                            id={chartId}
+                                            width={1000}
+                                            height={400}
+                                            data={reposiotryDetails?.stars?.slice(
+                                                -30
+                                            )}
+                                            margin={{
+                                                top: 5,
+                                                right: 50,
+                                                left: 10,
+                                                bottom: 5,
+                                            }}
+                                        >
+                                            <Line
+                                                type="monotone"
+                                                dataKey="stars"
+                                                stroke="#8884d8"
+                                            />
+                                            <CartesianGrid stroke="#3e4c5e" />
+                                            <XAxis dataKey="date" />
+                                            <YAxis
+                                                dataKey="stars"
+                                                stroke="#3e4c5e"
+                                            />
+                                            <Tooltip
+                                                contentStyle={{
+                                                    color: "#8884d8",
+                                                }}
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
+                            <div className="col-12 lg:col-6">
+                                <h3 className="text-center text-2xl">Forks</h3>
+                                <div className="responsiveChart">
+                                    <ResponsiveContainer
+                                        width="100%"
+                                        height="100%"
+                                    >
+                                        <LineChart
+                                            id={chartId}
+                                            width={1100}
+                                            height={400}
+                                            data={reposiotryDetails?.forks?.slice(
+                                                -30
+                                            )}
+                                            margin={{
+                                                top: 5,
+                                                right: 50,
+                                                left: 10,
+                                                bottom: 5,
+                                            }}
+                                        >
+                                            <Line
+                                                type="monotone"
+                                                dataKey="forks"
+                                                stroke="#8884d8"
+                                            />
+                                            <CartesianGrid stroke="#3e4c5e" />
+                                            <XAxis
+                                                dataKey="date"
+                                                stroke="#3e4c5e"
+                                            />
+                                            <YAxis
+                                                dataKey="forks"
+                                                stroke="#3e4c5e"
+                                            />
+                                            <Tooltip
+                                                contentStyle={{
+                                                    color: "#8884d8",
+                                                }}
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
                         </div>
                     </>
                 )}
